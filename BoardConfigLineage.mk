@@ -16,6 +16,9 @@ TARGET_BOARD_INFO_FILE := device/google/zumapro/android-info.txt
 # HIDL
 DEVICE_MANIFEST_FILE += device/google/zumapro/manifest_ext.xml
 
+# Kernel
+TARGET_PREBUILT_KERNEL := $(LOCAL_KERNEL)
+
 # Partitions
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDOR_DLKMIMAGE_FILE_SYSTEM_TYPE := ext4
