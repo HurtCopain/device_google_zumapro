@@ -549,7 +549,9 @@ $(call soong_config_set,google3a_config,gcam_awb,true)
 $(call soong_config_set,google3a_config,ghawb_truetone,true)
 
 ifneq ($(wildcard vendor/google/services/LyricCameraHAL/src),)
-$(call soong_config_set,lyric,soc,zumapro)
+# TODO(b/272725898): Needs to check with owner later
+$(warning lyric set to zuma on zumapro target)
+$(call soong_config_set,lyric,soc,zuma)
 $(call soong_config_set,lyric,use_lyric_camera_hal,true)
 $(call soong_config_set,lyric,kernel_version,v515)
 # lyric::tuning_product is set in device-specific makefiles,
