@@ -40,7 +40,9 @@ ifneq ($(BOARD_WITHOUT_RADIO),true)
 include device/google/gs-common/gps/brcm/device_v2.mk
 endif
 
-TARGET_BOARD_PLATFORM := zumapro
+# TODO(b/272725898): Needs to check with owner later
+$(warning TARGET_BOARD_PLATFORM set to zuma on zumapro target)
+TARGET_BOARD_PLATFORM := zuma
 ALLOW_MISSING_DEPENDENCIES := true
 
 AB_OTA_POSTINSTALL_CONFIG += \
