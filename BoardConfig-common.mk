@@ -139,7 +139,9 @@ endif
 
 #display_unit_test
 ifeq ($(USES_DEVICE_GOOGLE_ZUMAPRO),true)
-$(call soong_config_set,display_unit_test,soc,zumapro)
+# TODO(b/272725898): Needs to check with owner later
+$(warning display_unit_test set to zuma on zumapro target)
+$(call soong_config_set,display_unit_test,soc,zuma)
 endif
 
 # Graphics
