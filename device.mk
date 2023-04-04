@@ -542,7 +542,9 @@ else
         LOCAL_TARGET_PRODUCT := slider
 endif
 
-$(call soong_config_set,google3a_config,soc,zumapro)
+# TODO(b/272725898): Needs to check with owner later
+$(warning google3a_config set to zuma on zumapro target)
+$(call soong_config_set,google3a_config,soc,zuma)
 $(call soong_config_set,google3a_config,gcam_awb,true)
 $(call soong_config_set,google3a_config,ghawb_truetone,true)
 
