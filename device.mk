@@ -63,12 +63,14 @@ ifeq ($(USE_PIXEL_GRALLOC),true)
 	PRODUCT_SOONG_NAMESPACES += hardware/google/gchips/GrallocHAL
 endif
 
+# TODO(b/272725898): Needs to check with owner later
+$(warning hardware/google/graphics/zuma set to zuma on zumapro target)
 PRODUCT_SOONG_NAMESPACES += \
 	hardware/google/av \
 	hardware/google/gchips \
 	hardware/google/gchips/gralloc4 \
 	hardware/google/graphics/common \
-	hardware/google/graphics/zumapro \
+	hardware/google/graphics/zuma \
 	hardware/google/interfaces \
 	hardware/google/pixel \
 	device/google/zumapro \
