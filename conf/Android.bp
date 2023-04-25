@@ -71,7 +71,7 @@ genrule {
 
 prebuilt_etc {
     name: "fstab.zumapro",
-    src: ":gen_fstab.zumapro-hw-encrypt",
+    src: ":gen_fstab.zumapro-no-encrypt",
     vendor: true,
     vendor_ramdisk_available: true,
 }
