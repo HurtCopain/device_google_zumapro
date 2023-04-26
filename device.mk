@@ -808,19 +808,19 @@ LOCAL_GATEKEEPER_PRODUCT_PACKAGE := android.hardware.gatekeeper@1.0-service.soft
 #$(call inherit-product, system/core/trusty/trusty-base.mk)
 
 # Trusty unit test tool
-PRODUCT_PACKAGES_DEBUG += \
-   trusty-ut-ctrl \
-   tipc-test \
-   trusty_stats_test \
+# PRODUCT_PACKAGES_DEBUG += \
+#    trusty-ut-ctrl \
+#    tipc-test \
+#    trusty_stats_test \
 
-include device/google/gs101/confirmationui/confirmationui.mk
+# include device/google/gs101/confirmationui/confirmationui.mk
 
 # Trusty Metrics Daemon
-PRODUCT_SOONG_NAMESPACES += \
-	vendor/google/trusty/common
+# PRODUCT_SOONG_NAMESPACES += \
+#	vendor/google/trusty/common
 
-PRODUCT_PACKAGES += \
- 	trusty_metricsd
+#PRODUCT_PACKAGES += \
+# 	trusty_metricsd
 
 # TODO(b/272725898): Needs to check with owner later
 $(warning displaycolor_platform set to zuma on zumapro target)
