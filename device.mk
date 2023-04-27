@@ -332,9 +332,13 @@ PRODUCT_COPY_FILES += \
 
 # Fstab files
 PRODUCT_PACKAGES += \
+	fstab.zuma \
 	fstab.zumapro \
+	fstab.zuma.vendor_ramdisk \
 	fstab.zumapro.vendor_ramdisk \
+	fstab.zuma-fips \
 	fstab.zumapro-fips \
+	fstab.zuma-fips.vendor_ramdisk \
 	fstab.zumapro-fips.vendor_ramdisk
 
 PRODUCT_COPY_FILES += \
