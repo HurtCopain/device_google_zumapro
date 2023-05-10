@@ -222,8 +222,8 @@ USE_SWIFTSHADER := false
 # HWUI
 TARGET_USES_VULKAN = true
 
-# PRODUCT_SOONG_NAMESPACES += \
-#	vendor/arm/mali/valhall
+PRODUCT_SOONG_NAMESPACES += \
+	vendor/arm/mali/valhall
 
 $(call soong_config_set,pixel_mali,soc,$(TARGET_BOARD_PLATFORM))
 $(call soong_config_set,arm_gralloc,soc,$(TARGET_BOARD_PLATFORM))
