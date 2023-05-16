@@ -249,6 +249,7 @@ PRODUCT_VENDOR_PROPERTIES += \
 	ro.hardware.vulkan=pastel
 else
 PRODUCT_VENDOR_PROPERTIES += \
+	ro.hardware.egl=mali \
 	ro.hardware.vulkan=mali
 endif
 
