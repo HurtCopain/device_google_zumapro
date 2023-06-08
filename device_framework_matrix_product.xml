@@ -46,6 +46,14 @@
         </interface>
     </hal>
     <hal format="aidl" optional="true">
+        <name>android.hardware.vibrator</name>
+        <version>2</version>
+        <interface>
+            <name>IVibrator</name>
+            <instance>dual</instance>
+        </interface>
+    </hal>
+    <hal format="aidl" optional="true">
         <name>android.hardware.wifi.hostapd</name>
         <version>1</version>
         <interface>
