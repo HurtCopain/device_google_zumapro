@@ -796,31 +796,24 @@ PRODUCT_PACKAGES += \
 	libopenvx-opencl
 endif
 
-# TODO[b/279647242]: Re-enable Trusty and disable this when Trusty is working
-PRODUCT_PACKAGES += \
-	android.hardware.keymaster@4.1-service \
-	android.hardware.gatekeeper@1.0-service.software
-LOCAL_KEYMASTER_PRODUCT_PACKAGE := android.hardware.keymaster@4.1-service
-LOCAL_GATEKEEPER_PRODUCT_PACKAGE := android.hardware.gatekeeper@1.0-service.software
-
 # Trusty (KM, GK, Storage)
-#$(call inherit-product, system/core/trusty/trusty-storage.mk)
-#$(call inherit-product, system/core/trusty/trusty-base.mk)
+$(call inherit-product, system/core/trusty/trusty-storage.mk)
+$(call inherit-product, system/core/trusty/trusty-base.mk)
 
 # Trusty unit test tool
-# PRODUCT_PACKAGES_DEBUG += \
-#    trusty-ut-ctrl \
-#    tipc-test \
-#    trusty_stats_test \
+ PRODUCT_PACKAGES_DEBUG += \
+    trusty-ut-ctrl \
+    tipc-test \
+    trusty_stats_test \
 
-# include device/google/gs101/confirmationui/confirmationui.mk
+include device/google/gs101/confirmationui/confirmationui.mk
 
 # Trusty Metrics Daemon
-# PRODUCT_SOONG_NAMESPACES += \
-#	vendor/google/trusty/common
+PRODUCT_SOONG_NAMESPACES += \
+	vendor/google/trusty/common
 
-#PRODUCT_PACKAGES += \
-# 	trusty_metricsd
+PRODUCT_PACKAGES += \
+	trusty_metricsd
 
 # TODO(b/272725898): Needs to check with owner later
 $(warning displaycolor_platform set to zuma on zumapro target)
