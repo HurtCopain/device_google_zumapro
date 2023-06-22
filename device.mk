@@ -806,7 +806,7 @@ $(call inherit-product, system/core/trusty/trusty-base.mk)
     tipc-test \
     trusty_stats_test \
 
-include device/google/gs101/confirmationui/confirmationui.mk
+#include device/google/gs101/confirmationui/confirmationui.mk
 
 # Trusty Metrics Daemon
 PRODUCT_SOONG_NAMESPACES += \
