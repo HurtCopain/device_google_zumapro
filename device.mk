@@ -527,8 +527,7 @@ PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
 
 PRODUCT_PACKAGES += \
-	android.hardware.graphics.mapper@4.0-impl \
-	android.hardware.graphics.allocator-V1-service
+	android.hardware.graphics.allocator-V2-service
 
 PRODUCT_PACKAGES += \
 	memtrack.$(TARGET_BOARD_PLATFORM) \
