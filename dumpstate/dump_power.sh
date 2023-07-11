@@ -45,6 +45,16 @@ then
   cat "/dev/logbuffer_maxfg"
   echo "\n------ maxfg ------"
   cat "/dev/logbuffer_maxfg_monitor"
+elif [ -d "/sys/class/power_supply/max77779fg" ]
+then
+  echo "\n------ Power supply property max77779fg ------"
+  cat "/sys/class/power_supply/max77779fg/uevent"
+  echo "\n------ m5_state ------"
+  cat "/sys/class/power_supply/max77779fg/model_state"
+  echo "\n------ max77779fg ------"
+  cat "/dev/logbuffer_max77779fg"
+  echo "\n------ max77779fg_monitor ------"
+  cat "/dev/logbuffer_max77779fg_monitor"
 else
   echo "\n------ Power supply property maxfg_base ------"
   cat "/sys/class/power_supply/maxfg_base/uevent"
