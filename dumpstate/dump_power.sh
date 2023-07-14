@@ -41,9 +41,9 @@ then
   cat "/sys/class/power_supply/maxfg/uevent"
   echo "\n------ m5_state ------"
   cat "/sys/class/power_supply/maxfg/m5_model_state"
-  echo "\n------ maxfg ------"
+  echo "\n------ maxfg logbuffer------"
   cat "/dev/logbuffer_maxfg"
-  echo "\n------ maxfg ------"
+  echo "\n------ maxfg_monitor logbuffer------"
   cat "/dev/logbuffer_maxfg_monitor"
 elif [ -d "/sys/class/power_supply/max77779fg" ]
 then
@@ -51,9 +51,9 @@ then
   cat "/sys/class/power_supply/max77779fg/uevent"
   echo "\n------ m5_state ------"
   cat "/sys/class/power_supply/max77779fg/model_state"
-  echo "\n------ max77779fg ------"
+  echo "\n------ max77779fg logbuffer------"
   cat "/dev/logbuffer_max77779fg"
-  echo "\n------ max77779fg_monitor ------"
+  echo "\n------ max77779fg_monitor logbuffer ------"
   cat "/dev/logbuffer_max77779fg_monitor"
 else
   echo "\n------ Power supply property maxfg_base ------"
@@ -62,13 +62,13 @@ else
   cat "/sys/class/power_supply/maxfg_flip/uevent"
   echo "\n------ m5_state ------"
   cat "/sys/class/power_supply/maxfg_base/m5_model_state"
-  echo "\n------ maxfg_base ------"
+  echo "\n------ maxfg_base logbuffer------"
   cat "/dev/logbuffer_maxfg_base"
-  echo "\n------ maxfg_flip ------"
+  echo "\n------ maxfg_flip logbuffer------"
   cat "/dev/logbuffer_maxfg_flip"
-  echo "\n------ maxfg_base ------"
+  echo "\n------ maxfg_base_monitor logbuffer------"
   cat "/dev/logbuffer_maxfg_base_monitor"
-  echo "\n------ maxfg_flip ------"
+  echo "\n------ maxfg_flip_monitor logbuffer------"
   cat "/dev/logbuffer_maxfg_flip_monitor"
 fi
 
@@ -117,24 +117,23 @@ do
   cat $f/contaminant_detection_status
 done
 
-echo "\n------ PD Engine ------"
+echo "\n------ PD Engine logbuffer------"
 cat "/dev/logbuffer_usbpd"
-echo "\n------ PPS-google_cpm ------"
+echo "\n------ PPS-google_cpm logbuffer------"
 cat "/dev/logbuffer_cpm"
-echo "\n------ PPS-dc ------"
-cat "/dev/logbuffer_pca9468"
-
-if [ -e "/dev/logbuffer_wc68" ]
+echo "\n------ PPS-dc logbuffer------"
+if [ -d "/dev/logbuffer_pca9468" ]
 then
-  echo "\n------ WC68 ------"
-  cat "/dev/logbuffer_wc68"
+  cat "/dev/logbuffer_pca9468"
+else
+  cat "/dev/logbuffer_ln8411"
 fi
 
 echo "\n------ Battery Health ------"
 cat "/sys/class/power_supply/battery/health_index_stats"
-echo "\n------ BMS ------"
+echo "\n------ BMS logbuffer------"
 cat "/dev/logbuffer_ssoc"
-echo "\n------ TTF ------"
+echo "\n------ TTF logbuffer-----"
 cat "/dev/logbuffer_ttf"
 echo "\n------ TTF details ------"
 cat "/sys/class/power_supply/battery/ttf_details"
@@ -142,8 +141,11 @@ echo "\n------ TTF stats ------"
 cat "/sys/class/power_supply/battery/ttf_stats"
 echo "\n------ aacr_state ------"
 cat "/sys/class/power_supply/battery/aacr_state"
-echo "\n------ maxq ------"
-cat "/dev/logbuffer_maxq"
+if [ -d "/dev/logbuffer_maxq" ]
+then
+  echo "\n------ maxq logbuffer------"
+  cat "/dev/logbuffer_maxq"
+fi
 echo "\n------ TEMP/DOCK-DEFEND ------"
 cat "/dev/logbuffer_bd"
 
@@ -172,10 +174,18 @@ if [ $build_type = "userdebug" ]
 then
   echo "\n------ DC_registers dump ------"
   cat "/sys/class/power_supply/dc-mains/device/registers_dump"
-  echo "\n------ max77759_chg registers dump ------"
-  cat "/d/max77759_chg/registers"
-  echo "\n------ max77729_pmic registers dump ------"
-  cat "/d/max77729_pmic/registers"
+  if [ -d "/d/max77759_chg" ]
+  then
+    echo "\n------ max77759_chg registers dump ------"
+    cat "/d/max77759_chg/registers"
+    echo "\n------ max77729_pmic registers dump ------"
+    cat "/d/max77729_pmic/registers"
+  else
+    echo "\n------ max77779_chg registers dump ------"
+    cat "/d/max77779_chg/registers"
+    echo "\n------ max77779_pmic registers dump ------"
+    cat "/d/max77779_pmic/registers"
+  fi
   echo "\n------ Charging table dump ------"
   cat "/d/google_battery/chg_raw_profile"
 
@@ -196,54 +206,67 @@ then
   done
 
   echo "\n------ fg_model_ok ------"
-  for f in /d/maxfg*
-  do
-    regs=`cat $f/model_ok`
-    echo $f:
-    echo "$regs"
-  done
+  if [ -d "/d/maxfg" ]
+  then
+    for f in /d/maxfg*
+    do
+      regs=`cat $f/model_ok`
+      echo $f:
+      echo "$regs"
+    done
+  else
+    for f in /d/max77779fg*
+    do
+      regs=`cat $f/model_ok`
+      echo $f:
+      echo "$regs"
+    done
+  fi
 
   echo "\n------ fg registers ------"
-  for f in /d/maxfg*
-  do
-    regs=`cat $f/registers`
-    echo $f:
-    echo "$regs"
-  done
+  if [ -d "/d/maxfg" ]
+  then
+    for f in /d/maxfg*
+    do
+      regs=`cat $f/registers`
+      echo $f:
+      echo "$regs"
+    done
+  else
+    for f in /d/max77779fg*
+    do
+      regs=`cat $f/registers`
+      echo $f:
+      echo "$regs"
+    done
+  fi
 
   echo "\n------ Maxim FG NV RAM ------"
-  for f in /d/maxfg*
-  do
-    regs=`cat $f/nv_registers`
-    echo $f:
-    echo "$regs"
-  done
+  if [ -d "/d/maxfg" ]
+  then
+    for f in /d/maxfg*
+    do
+      regs=`cat $f/nv_registers`
+      echo $f:
+      echo "$regs"
+    done
+  else
+    for f in /d/max77779fg*
+    do
+      regs=`cat $f/debug_registers`
+      echo $f:
+      echo "$regs"
+    done
+  fi
 fi
 
 echo "\n------ Battery EEPROM ------"
-if [ -e "/sys/devices/platform/10970000.hsi2c/i2c-4/4-0050/eeprom" ]
+if find /sys/devices/platform/*.hsi2c/i2c-*/*-0050/eeprom
 then
-  xxd /sys/devices/platform/10970000.hsi2c/i2c-4/4-0050/eeprom
-fi
-
-if [ -e "/sys/devices/platform/10970000.hsi2c/i2c-5/5-0050/eeprom" ]
-then
-  xxd /sys/devices/platform/10970000.hsi2c/i2c-5/5-0050/eeprom
-fi
-
-if [ -e "/sys/devices/platform/10da0000.hsi2c/i2c-6/6-0050/eeprom" ]
-then
-  xxd /sys/devices/platform/10da0000.hsi2c/i2c-6/6-0050/eeprom
-fi
-
-if [ -e "/sys/devices/platform/10da0000.hsi2c/i2c-7/7-0050/eeprom" ]
-then
-  xxd /sys/devices/platform/10da0000.hsi2c/i2c-7/7-0050/eeprom
-fi
-
-if [ -e "/sys/devices/platform/10c90000.hsi2c/i2c-7/7-0050/eeprom" ]
-then
-  xxd /sys/devices/platform/10c90000.hsi2c/i2c-7/7-0050/eeprom
+  for f in /sys/devices/platform/*.hsi2c/i2c-*/*-0050/eeprom
+  do
+    xxd $f
+  done
 fi
 
 echo "\n------ Charger Stats ------"
@@ -264,7 +287,7 @@ then
   done
 fi
 
-echo "\n------ WLC logs ------"
+echo "\n------ WLC logs logbuffer------"
 cat "/dev/logbuffer_wireless"
 echo "\n------ WLC VER ------"
 cat "/sys/class/power_supply/wireless/device/version"
@@ -272,7 +295,7 @@ echo "\n------ WLC STATUS ------"
 cat "/sys/class/power_supply/wireless/device/status"
 echo "\n------ WLC FW Version ------"
 cat "/sys/class/power_supply/wireless/device/fw_rev"
-echo "\n------ RTX ------"
+echo "\n------ RTX logbuffer------"
 cat "/dev/logbuffer_rtx"
 
 if [ $build_type = "userdebug" ]
