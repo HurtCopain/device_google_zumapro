@@ -184,7 +184,7 @@ then
     echo "\n------ max77779_chg registers dump ------"
     cat "/d/max77779_chg/registers"
     echo "\n------ max77779_pmic registers dump ------"
-    cat "/d/max77779_pmic/registers"
+    cat "/d/regmap/*-0066-max77779_pmic/registers"
   fi
   echo "\n------ Charging table dump ------"
   cat "/d/google_battery/chg_raw_profile"
