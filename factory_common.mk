@@ -45,7 +45,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     vendor.camera.debug.enable_saliency=0 \
     vendor.camera.debug.force_local_tone_mapping_on=0 \
     vendor.camera.debug.local_tone_mapping_controller_v1.mode=0 \
-    vendor.camera.debug.enable_scene_detection=0
+    vendor.camera.debug.enable_scene_detection=0 \
+    vendor.camera.debug.enable_sw_denoise=0 \
+    vendor.camera.debug.enable_video_sw_denoise=0
 
 # Disable ScreenDecorations for factory builds
 PRODUCT_PROPERTY_OVERRIDES += \
