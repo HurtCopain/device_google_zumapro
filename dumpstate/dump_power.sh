@@ -261,12 +261,14 @@ then
 fi
 
 echo "\n------ Battery EEPROM ------"
-if find /sys/devices/platform/*.hsi2c/i2c-*/*-0050/eeprom
+if [ -e "/sys/devices/platform/10c90000.hsi2c/i2c-7/7-0050/eeprom" ]
 then
-  for f in /sys/devices/platform/*.hsi2c/i2c-*/*-0050/eeprom
-  do
-    xxd $f
-  done
+  xxd /sys/devices/platform/10c90000.hsi2c/i2c-7/7-0050/eeprom
+fi
+
+if [ -e "/sys/devices/platform/10c90000.hsi2c/i2c-6/6-0050/eeprom" ]
+then
+  xxd /sys/devices/platform/10c90000.hsi2c/i2c-6/6-0050/eeprom
 fi
 
 echo "\n------ Charger Stats ------"
