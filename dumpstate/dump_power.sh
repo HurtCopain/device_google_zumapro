@@ -189,72 +189,40 @@ then
   echo "\n------ Charging table dump ------"
   cat "/d/google_battery/chg_raw_profile"
 
-  echo "\n------ fg_model ------"
-  for f in /d/maxfg*
-  do
-    regs=`cat $f/fg_model`
-    echo $f:
-    echo "$regs"
-  done
-
-  echo "\n------ fg_alo_ver ------"
-  for f in /d/maxfg*
-  do
-    regs=`cat $f/algo_ver`
-    echo $f:
-    echo "$regs"
-  done
-
-  echo "\n------ fg_model_ok ------"
   if [ -d "/d/maxfg" ]
   then
     for f in /d/maxfg*
     do
+      regs=`cat $f/fg_model`
+      echo "\n------ $f/fg_model ------:"
+      echo "$regs"
+      regs=`cat $f/algo_ver`
+      echo "\n------ $f/algo_ver ------:"
+      echo "$regs"
       regs=`cat $f/model_ok`
-      echo $f:
+      echo "\n------ $f/model_ok ------:"
       echo "$regs"
-    done
-  else
-    for f in /d/max77779fg*
-    do
-      regs=`cat $f/model_ok`
-      echo $f:
-      echo "$regs"
-    done
-  fi
-
-  echo "\n------ fg registers ------"
-  if [ -d "/d/maxfg" ]
-  then
-    for f in /d/maxfg*
-    do
       regs=`cat $f/registers`
-      echo $f:
+      echo "\n------ $f/registers ------:"
       echo "$regs"
-    done
-  else
-    for f in /d/max77779fg*
-    do
-      regs=`cat $f/registers`
-      echo $f:
-      echo "$regs"
-    done
-  fi
-
-  echo "\n------ Maxim FG NV RAM ------"
-  if [ -d "/d/maxfg" ]
-  then
-    for f in /d/maxfg*
-    do
       regs=`cat $f/nv_registers`
-      echo $f:
+      echo "\n------ $f/nv_registers ------:"
       echo "$regs"
     done
   else
     for f in /d/max77779fg*
     do
+      regs=`cat $f/fg_model`
+      echo "\n------ $f/fg_model ------:"
+      echo "$regs"
+      regs=`cat $f/model_ok`
+      echo "\n------ $f/model_ok ------:"
+      echo "$regs"
+      regs=`cat $f/registers`
+      echo "\n------ $f/registers ------:"
+      echo "$regs"
       regs=`cat $f/debug_registers`
-      echo $f:
+      echo "\n------ $f/debug_registers ------:"
       echo "$regs"
     done
   fi
