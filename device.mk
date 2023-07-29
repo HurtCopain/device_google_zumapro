@@ -41,6 +41,8 @@ include device/google/zumapro/dumpstate/item.mk
 
 ifneq ($(BOARD_WITHOUT_RADIO),true)
 include device/google/gs-common/gps/brcm/device_v2.mk
+else ifeq ($(BOARD_WITH_GPS),true)
+include device/google/gs-common/gps/brcm/device_v2.mk
 endif
 
 # TODO(b/272725898): Needs to check with owner later
