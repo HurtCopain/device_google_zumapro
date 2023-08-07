@@ -14,6 +14,7 @@ sh_binary {
     src: "dump_power.sh",
     vendor: true,
     sub_dir: "dump",
+    init_rc: ["dump_power.rc"],
 }
 
 sh_binary {
