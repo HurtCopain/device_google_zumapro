@@ -239,6 +239,11 @@ then
   xxd /sys/devices/platform/10c90000.hsi2c/i2c-6/6-0050/eeprom
 fi
 
+if [ -e "/sys/devices/platform/10ca0000.hsi2c/i2c-6/6-0050/eeprom" ]
+then
+  xxd /sys/devices/platform/10ca0000.hsi2c/i2c-6/6-0050/eeprom
+fi
+
 echo "\n------ Charger Stats ------"
 cat "/sys/class/power_supply/battery/charge_details"
 if [ $build_type = "userdebug" ]
