@@ -40,11 +40,9 @@ include device/google/gs-common/misc_writer/misc_writer.mk
 
 include device/google/zumapro/dumpstate/item.mk
 
-ifneq ($(BOARD_WITHOUT_RADIO),true)
+# LOCATION
+$(call soong_config_set, include_libsitril-gps-wifi, board_without_radio, $(BOARD_WITHOUT_RADIO))
 include device/google/gs-common/gps/brcm/device_v2.mk
-else ifeq ($(BOARD_WITH_GPS),true)
-include device/google/gs-common/gps/brcm/device_v2.mk
-endif
 
 # TODO(b/272725898): Needs to check with owner later
 $(warning TARGET_BOARD_PLATFORM set to zuma on zumapro target)
