@@ -39,10 +39,6 @@ include device/google/gs-common/misc_writer/misc_writer.mk
 
 include device/google/zumapro/dumpstate/item.mk
 
-# LOCATION
-$(call soong_config_set, include_libsitril-gps-wifi, board_without_radio, $(BOARD_WITHOUT_RADIO))
-include device/google/gs-common/gps/brcm/device_v2.mk
-
 # TODO(b/272725898): Needs to check with owner later
 $(warning TARGET_BOARD_PLATFORM set to zuma on zumapro target)
 TARGET_BOARD_PLATFORM := zuma
