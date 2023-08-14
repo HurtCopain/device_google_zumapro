@@ -1051,7 +1051,7 @@ PRODUCT_PROPERTY_OVERRIDES += persist.vendor.enable.thermal.genl=true
 # EdgeTPU
 include device/google/gs-common/edgetpu/edgetpu.mk
 # Config variables for TPU chip on device.
-$(call soong_config_set,edgetpu_config,chip,rio)
+$(call soong_config_set,edgetpu_config,chip,rio_pro)
 # TPU firmware
 PRODUCT_PACKAGES += edgetpu-rio.fw
 
