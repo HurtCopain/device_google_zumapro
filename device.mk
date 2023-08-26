@@ -40,10 +40,6 @@ include device/google/gs-common/misc_writer/misc_writer.mk
 
 include device/google/zumapro/dumpstate/item.mk
 
-# LOCATION
-$(call soong_config_set, include_libsitril-gps-wifi, board_without_radio, $(BOARD_WITHOUT_RADIO))
-include device/google/gs-common/gps/brcm/device_v2.mk
-
 # TODO(b/272725898): Needs to check with owner later
 $(warning TARGET_BOARD_PLATFORM set to zuma on zumapro target)
 TARGET_BOARD_PLATFORM := zuma
@@ -897,10 +893,6 @@ $(call inherit-product-if-exists, vendor/samsung_slsi/telephony/$(BOARD_USES_SHA
 
 PRODUCT_PACKAGES += ShannonIms
 
-#RCS Test Messaging App
-PRODUCT_PACKAGES_DEBUG += \
-	TestRcsApp
-
 PRODUCT_PACKAGES += ShannonRcs
 
 ifeq (,$(filter aosp_% factory_%,$(TARGET_PRODUCT)))
@@ -947,6 +939,8 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 #$(call inherit-product-if-exists, vendor/google_devices/common/exynos-vendor.mk)
 #$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4375/device-bcm.mk)
 include device/google/gs-common/sensors/sensors.mk
+# Zuma Pro USF configuration is identical to Zuma
+$(call soong_config_set,usf,target_soc,zuma)
 
 PRODUCT_COPY_FILES += \
 	device/google/zumapro/default-permissions.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/default-permissions/default-permissions.xml \
@@ -1049,7 +1043,7 @@ PRODUCT_PROPERTY_OVERRIDES += persist.vendor.enable.thermal.genl=true
 # EdgeTPU
 include device/google/gs-common/edgetpu/edgetpu.mk
 # Config variables for TPU chip on device.
-$(call soong_config_set,edgetpu_config,chip,rio)
+$(call soong_config_set,edgetpu_config,chip,rio_pro)
 # TPU firmware
 PRODUCT_PACKAGES += edgetpu-rio.fw
 
