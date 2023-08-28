@@ -1140,3 +1140,5 @@ endif
 
 # Touch service
 include hardware/google/pixel/input/twoshay.mk
+
+PRODUCT_CHECK_VENDOR_SEAPP_VIOLATIONS := true
