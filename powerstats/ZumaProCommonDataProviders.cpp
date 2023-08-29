@@ -679,5 +679,5 @@ void addNFC(std::shared_ptr<PowerStats> p) {
             "NFC", "NFC subsystem");
 
     p->addStateResidencyDataProvider(std::make_unique<GenericStateResidencyDataProvider>(
-            "/sys/devices/platform/10c80000.hsi2c/i2c-6/6-0008/power_stats", cfgs));
+            "/sys/devices/platform/10c90000.hsi2c/i2c-9/9-0008/power_stats", cfgs));
 }
