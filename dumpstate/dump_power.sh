@@ -141,6 +141,8 @@ echo "\n------ TTF stats ------"
 cat "/sys/class/power_supply/battery/ttf_stats"
 echo "\n------ aacr_state ------"
 cat "/sys/class/power_supply/battery/aacr_state"
+echo "\n------ pairing_state ------"
+cat "/sys/class/power_supply/battery/pairing_state"
 if [ -d "/dev/logbuffer_maxq" ]
 then
   echo "\n------ maxq logbuffer------"
