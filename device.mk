@@ -40,9 +40,7 @@ include device/google/gs-common/misc_writer/misc_writer.mk
 
 include device/google/zumapro/dumpstate/item.mk
 
-# TODO(b/272725898): Needs to check with owner later
-$(warning TARGET_BOARD_PLATFORM set to zuma on zumapro target)
-TARGET_BOARD_PLATFORM := zuma
+TARGET_BOARD_PLATFORM := zumapro
 ALLOW_MISSING_DEPENDENCIES := true
 
 AB_OTA_POSTINSTALL_CONFIG += \
@@ -224,8 +222,10 @@ TARGET_USES_VULKAN = true
 PRODUCT_SOONG_NAMESPACES += \
 	vendor/arm/mali/valhall
 
-$(call soong_config_set,pixel_mali,soc,$(TARGET_BOARD_PLATFORM))
-$(call soong_config_set,arm_gralloc,soc,$(TARGET_BOARD_PLATFORM))
+$(call soong_config_set,pixel_mali,soc,zuma)
+# TODO (b/297408842): The gralloc is being open-sourced, and we cannot pass
+# "zumapro" as SOC to build it. Pass "zuma" as SOC for now.
+$(call soong_config_set,arm_gralloc,soc,zuma)
 
 include device/google/gs-common/gpu/gpu.mk
 
@@ -737,7 +737,7 @@ endif
 # Video
 PRODUCT_SOONG_NAMESPACES += vendor/google/media/bigwave
 
-$(call soong_config_set,bigw,soc,$(TARGET_BOARD_PLATFORM))
+$(call soong_config_set,bigw,soc,zuma)
 
 PRODUCT_PACKAGES += \
 	google.hardware.media.c2@2.0-service \
@@ -993,7 +993,7 @@ include device/google/gs-common/audio/hidl_zuma.mk
 PRODUCT_SOONG_NAMESPACES += \
         vendor/google/whitechapel/aoc
 
-$(call soong_config_set,aoc,target_soc,$(TARGET_BOARD_PLATFORM))
+$(call soong_config_set,aoc,target_soc,zuma)
 $(call soong_config_set,aoc,target_product,$(TARGET_PRODUCT))
 
 #
