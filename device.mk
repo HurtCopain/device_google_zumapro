@@ -555,9 +555,9 @@ endif
 
 include device/google/gs-common/camera/lyric.mk
 
+$(call soong_config_set,lyric,soc,zumapro)
 # TODO(b/272725898): Needs to check with owner later
-$(warning lyric set to zuma on zumapro target)
-$(call soong_config_set,lyric,soc,zuma)
+$(warning lyric set to v515 on v61 target)
 $(call soong_config_set,lyric,kernel_version,v515)
 # lyric::tuning_product is set in device-specific makefiles,
 # such as device/google/${DEVICE}/device-${DEVICE}.mk
