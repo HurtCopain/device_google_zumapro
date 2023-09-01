@@ -280,4 +280,7 @@
 
     <!-- Enable Zram writeback feature to allow unused pages in zram be written to flash. -->
     <bool name="config_zramWriteback">true</bool>
+
+    <!-- Enable variable refresh rate when typing. -->
+    <bool name="config_variableRefreshRateTypingSupported">true</bool>
 </resources>
