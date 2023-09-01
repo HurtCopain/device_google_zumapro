@@ -1128,9 +1128,11 @@ include hardware/google/pixel/HardwareInfo/HardwareInfo.mk
 # UFS: the script is used to select the corresponding firmware to run FFU.
 PRODUCT_PACKAGES_DEBUG += ufs_firmware_update.sh
 
+ifneq ($(BOARD_WITHOUT_RADIO),true)
 # RIL extension service
 ifeq (,$(filter aosp_% factory_%,$(TARGET_PRODUCT)))
 include device/google/gs-common/pixel_ril/ril.mk
+endif
 endif
 
 # Touch service
