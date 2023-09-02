@@ -764,6 +764,9 @@ on property:sys.boot_completed=1
 #Enable SICD
     write /sys/devices/system/cpu/cpupm/cpupm/sicd 1
 
+on property:sys.boot_completed=1 && property:persist.sys.device_provisioned=1
+    write /sys/class/power_supply/battery/first_usage_date 0
+
 # IMS WiFi Calling
     service charonservice /system/vendor/bin/charon
     class main
