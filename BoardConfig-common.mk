@@ -109,11 +109,13 @@ BOARD_USES_ALIGN_RESTRICTION := false
 BOARD_USES_GRALLOC_ION_SYNC := true
 
 # This should be the same value as USE_SWIFTSHADER in device.mk
-BOARD_USES_SWIFTSHADER := false
+BOARD_USES_SWIFTSHADER ?= false
 
 # Gralloc4
 ifeq ($(BOARD_USES_EXYNOS_GRALLOC_VERSION),4)
 ifeq ($(BOARD_USES_SWIFTSHADER),true)
+$(warning BOARD_USES_SWIFTSHADER set to current target)
+BOARD_VENDOR_SEPOLICY_DIRS += device/google/cuttlefish/shared/angle/sepolicy
 TARGET_DISABLE_TRIPLE_BUFFERING := true
 $(call soong_config_set,arm_gralloc,gralloc_arm_no_external_afbc,true)
 $(call soong_config_set,arm_gralloc,mali_gpu_support_afbc_basic,false)
