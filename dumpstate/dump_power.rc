@@ -4,10 +4,6 @@ on init
     chown system system /sys/class/power_supply/maxfg_base/m5_model_state
     chown system system /sys/class/power_supply/max77779fg/model_state
 
-    # pca9468
-    chown system system /d/regmap/9-0057-dc-mains/registers
-    chown system system /d/regmap/10-0057-dc-mains/registers
-
     # Dump eeprom
     chown system system /sys/devices/platform/10c90000.hsi2c/i2c-9/9-0050/eeprom
     chown system system /sys/devices/platform/10ca0000.hsi2c/i2c-10/10-0050/eeprom
@@ -19,10 +15,16 @@ on init
     chown system system /sys/class/power_supply/battery/charge_stats
 
     # Pca Charge stats (write 0)
-    chown system system /sys/class/power_supply/pca9468-mains/device/chg_stats
+    chown system system /sys/class/power_supply/dc-mains/device/chg_stats
 
     # Wireless Charge stats (write 0)
     chown system system /sys/class/power_supply/wireless/device/charge_stats
+
+    # Thermal Charge stats (write 0)
+    chown system system /sys/devices/platform/google,charger/thermal_stats
+
+    # Google Charger stats (write 0)
+    chown system system /sys/devices/platform/google,charger/charge_stats
 
     # Permission for wireless charging
     chown system system /sys/class/power_supply/wireless/capacity
@@ -42,6 +44,9 @@ on init
 
     # Charging policy
     chown system system /sys/class/power_supply/battery/charging_policy
+
+    # BatteryHealthData
+    chown system system /sys/class/power_supply/battery/first_usage_date
 
     # Battery Defender
     chown system system /sys/devices/platform/google,battery/power_supply/battery/bd_trickle_cnt
