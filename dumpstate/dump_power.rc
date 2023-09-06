@@ -1,7 +1,7 @@
 on init
     # Dump maxfg
     chown system system /sys/class/power_supply/maxfg/m5_model_state
-    chown system system /sys/class/power_supply/maxfg_base/m5_model_state
+    chown system system /sys/class/power_supply/maxfg_base/model_state
     chown system system /sys/class/power_supply/max77779fg/model_state
 
     # Dump eeprom
@@ -85,6 +85,10 @@ on early-boot
     chown system system /dev/logbuffer_maxfg_monitor
     chown system system /dev/logbuffer_max77779fg
     chown system system /dev/logbuffer_max77779fg_monitor
+    chown system system /dev/logbuffer_maxfg_base
+    chown system system /dev/logbuffer_maxfg_secondary
+    chown system system /dev/logbuffer_maxfg_base_monitor
+    chown system system /dev/logbuffer_maxfg_secondary_monitor
     chown system system /dev/logbuffer_maxq
     chown system system /dev/logbuffer_rtx
     chown system system /dev/logbuffer_ssoc

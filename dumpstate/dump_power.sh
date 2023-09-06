@@ -58,18 +58,18 @@ then
 else
   echo "\n------ Power supply property maxfg_base ------"
   cat "/sys/class/power_supply/maxfg_base/uevent"
-  echo "\n------ Power supply property maxfg_flip ------"
-  cat "/sys/class/power_supply/maxfg_flip/uevent"
-  echo "\n------ m5_state ------"
-  cat "/sys/class/power_supply/maxfg_base/m5_model_state"
+  echo "\n------ Power supply property maxfg_secondary ------"
+  cat "/sys/class/power_supply/maxfg_secondary/uevent"
+  echo "\n------ model_state ------"
+  cat "/sys/class/power_supply/maxfg_base/model_state"
   echo "\n------ maxfg_base logbuffer------"
   cat "/dev/logbuffer_maxfg_base"
-  echo "\n------ maxfg_flip logbuffer------"
-  cat "/dev/logbuffer_maxfg_flip"
+  echo "\n------ maxfg_secondary logbuffer------"
+  cat "/dev/logbuffer_maxfg_secondary"
   echo "\n------ maxfg_base_monitor logbuffer------"
   cat "/dev/logbuffer_maxfg_base_monitor"
-  echo "\n------ maxfg_flip_monitor logbuffer------"
-  cat "/dev/logbuffer_maxfg_flip_monitor"
+  echo "\n------ maxfg_secondary_monitor logbuffer------"
+  cat "/dev/logbuffer_maxfg_secondary_monitor"
 fi
 
 if [ -e "/dev/maxfg_history" ]
