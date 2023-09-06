@@ -974,3 +974,5 @@ on post-fs-data && property:ro.vendor.factory=1
 on property:ro.boot.mode=charger && property:init.svc.vendor.charger=running
     # Enable UFS powersaving in Off Mode Charger
     write /dev/sys/block/bootdevice/clkgate_enable 1
+    # Disable dock-defend in Off Mode Charger
+    write /sys/devices/platform/google,charger/dd_state -1

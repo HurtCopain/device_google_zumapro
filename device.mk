@@ -556,9 +556,6 @@ endif
 include device/google/gs-common/camera/lyric.mk
 
 $(call soong_config_set,lyric,soc,zumapro)
-# TODO(b/272725898): Needs to check with owner later
-$(warning lyric set to v515 on v61 target)
-$(call soong_config_set,lyric,kernel_version,v515)
 # lyric::tuning_product is set in device-specific makefiles,
 # such as device/google/${DEVICE}/device-${DEVICE}.mk
 
@@ -690,6 +687,9 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.has_HDR_display=true
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.use_color_management=true
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.protected_contents=true
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.display_update_imminent_timeout_ms=50
+
+# Enhance VRR detection
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += debug.sf.enable_small_dirty_detection=true
 
 # force to blend in P3 mode
 PRODUCT_PROPERTY_OVERRIDES += \
