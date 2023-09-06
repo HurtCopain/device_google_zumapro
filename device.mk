@@ -214,10 +214,15 @@ USES_GAUDIO := true
 # GRAPHICS - GPU (begin)
 
 # Must match BOARD_USES_SWIFTSHADER in BoardConfig.mk
-USE_SWIFTSHADER := false
+USE_SWIFTSHADER ?= false
 
 # HWUI
+ifeq ($(USE_SWIFTSHADER),true)
+$(warning USE_SWIFTSHADER set to current target)
+TARGET_USES_VULKAN = false
+else
 TARGET_USES_VULKAN = true
+endif
 
 PRODUCT_SOONG_NAMESPACES += \
 	vendor/arm/mali/valhall
@@ -237,6 +242,7 @@ PRODUCT_PACKAGES += \
 	libgpudataproducer
 
 ifeq ($(USE_SWIFTSHADER),true)
+$(warning USE_SWIFTSHADER set to current target)
 PRODUCT_PACKAGES += \
 	libEGL_angle \
 	libGLESv1_CM_angle \
@@ -246,10 +252,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_VENDOR_PROPERTIES += \
 	ro.hardware.egl=angle \
 	ro.hardware.vulkan=pastel
+PRODUCT_VENDOR_PROPERTIES += \
+	debug.renderengine.backend=skiaglthreaded
 else
 PRODUCT_VENDOR_PROPERTIES += \
 	ro.hardware.egl=mali \
 	ro.hardware.vulkan=mali
+PRODUCT_VENDOR_PROPERTIES += \
+	debug.renderengine.backend=skiavkthreaded
 endif
 
 # Mali Configuration Properties
@@ -277,7 +287,6 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_VENDOR_PROPERTIES += \
 	ro.opengles.version=196610 \
 	graphics.gpu.profiler.support=true \
-	debug.renderengine.backend=skiavkthreaded \
 
 # GRAPHICS - GPU (end)
 # ####################
@@ -1128,9 +1137,11 @@ include hardware/google/pixel/HardwareInfo/HardwareInfo.mk
 # UFS: the script is used to select the corresponding firmware to run FFU.
 PRODUCT_PACKAGES_DEBUG += ufs_firmware_update.sh
 
+ifneq ($(BOARD_WITHOUT_RADIO),true)
 # RIL extension service
 ifeq (,$(filter aosp_% factory_%,$(TARGET_PRODUCT)))
 include device/google/gs-common/pixel_ril/ril.mk
+endif
 endif
 
 # Touch service
