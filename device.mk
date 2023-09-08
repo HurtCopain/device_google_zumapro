@@ -37,6 +37,7 @@ include device/google/gs-common/gear/dumpstate/aidl.mk
 include device/google/gs-common/widevine/widevine.mk
 include device/google/gs-common/sota_app/factoryota.mk
 include device/google/gs-common/misc_writer/misc_writer.mk
+include device/google/gs-common/gyotaku_app/gyotaku.mk
 
 include device/google/zumapro/dumpstate/item.mk
 
@@ -696,9 +697,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.has_HDR_display=true
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.use_color_management=true
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.protected_contents=true
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.display_update_imminent_timeout_ms=50
-
-# Enhance VRR detection
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += debug.sf.enable_small_dirty_detection=true
 
 # force to blend in P3 mode
 PRODUCT_PROPERTY_OVERRIDES += \
