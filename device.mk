@@ -228,7 +228,7 @@ endif
 PRODUCT_SOONG_NAMESPACES += \
 	vendor/arm/mali/valhall
 
-$(call soong_config_set,pixel_mali,soc,zuma)
+$(call soong_config_set,pixel_mali,soc,$(TARGET_BOARD_PLATFORM))
 # TODO (b/297408842): The gralloc is being open-sourced, and we cannot pass
 # "zumapro" as SOC to build it. Pass "zuma" as SOC for now.
 $(call soong_config_set,arm_gralloc,soc,zuma)
