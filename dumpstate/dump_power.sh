@@ -122,7 +122,7 @@ cat "/dev/logbuffer_usbpd"
 echo "\n------ PPS-google_cpm logbuffer------"
 cat "/dev/logbuffer_cpm"
 echo "\n------ PPS-dc logbuffer------"
-if [ -d "/dev/logbuffer_pca9468" ]
+if [ -e "/dev/logbuffer_pca9468" ]
 then
   cat "/dev/logbuffer_pca9468"
 else
@@ -143,7 +143,7 @@ echo "\n------ aacr_state ------"
 cat "/sys/class/power_supply/battery/aacr_state"
 echo "\n------ pairing_state ------"
 cat "/sys/class/power_supply/battery/pairing_state"
-if [ -d "/dev/logbuffer_maxq" ]
+if [ -e "/dev/logbuffer_maxq" ]
 then
   echo "\n------ maxq logbuffer------"
   cat "/dev/logbuffer_maxq"
