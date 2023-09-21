@@ -109,6 +109,14 @@ const struct SysfsCollector::SysfsPaths sysfs_paths = {
     .OffloadEffectsIdPath = "/sys/devices/platform/audiometrics/offload_effects_id",
     .OffloadEffectsDurationPath = "/sys/devices/platform/audiometrics/offload_effects_duration",
     .BluetoothAudioUsagePath = "/sys/devices/platform/audiometrics/bt_usage",
+    .DisplayPortStatsPaths = {
+        "/sys/devices/platform/exynos-drm/displayport/drm-displayport-stats/link_negotiation_failures",
+        "/sys/devices/platform/exynos-drm/displayport/drm-displayport-stats/edid_read_failures",
+        "/sys/devices/platform/exynos-drm/displayport/drm-displayport-stats/dpcd_read_failures",
+        "/sys/devices/platform/exynos-drm/displayport/drm-displayport-stats/edid_invalid_failures",
+        "/sys/devices/platform/exynos-drm/displayport/drm-displayport-stats/sink_count_invalid_failures",
+        "/sys/devices/platform/exynos-drm/displayport/drm-displayport-stats/link_unstable_failures",
+    }
 };
 
 const struct UeventListener::UeventPaths ueventPaths = {
