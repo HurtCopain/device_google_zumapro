@@ -169,7 +169,7 @@ void addDvfsStats(std::shared_ptr<PowerStats> p) {
     std::vector<std::pair<std::string, std::string>> adpCfgs = {
         std::make_pair("CL0", "/sys/devices/system/cpu/cpufreq/policy0/stats"),
         std::make_pair("CL1", "/sys/devices/system/cpu/cpufreq/policy4/stats"),
-        std::make_pair("CL2", "/sys/devices/system/cpu/cpufreq/policy8/stats"),
+        std::make_pair("CL2", "/sys/devices/system/cpu/cpufreq/policy7/stats"),
         std::make_pair("MIF",
                 "/sys/devices/platform/17000010.devfreq_mif/devfreq/17000010.devfreq_mif")};
 
