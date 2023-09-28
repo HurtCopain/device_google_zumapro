@@ -542,6 +542,7 @@ void addPowerDomains(std::shared_ptr<PowerStats> p) {
 
     std::vector<GenericStateResidencyDataProvider::PowerEntityConfig> cfgs;
     for (std::string name : {
+            "pd-hsi0",
             "pd-tpu",
             "pd-ispfe",
             "pd-eh",
