@@ -774,7 +774,6 @@ on property:vendor.charon.exec=0
 on property:sys.retaildemo.enabled=1
     setprop persist.vendor.charge.stop.level 35
     setprop persist.vendor.charge.start.level 30
-
 # Test Harness Mode default battery profile.
 on  property:persist.sys.test_harness=1 && property:persist.vendor.testing_battery_profile=0
     setprop persist.vendor.charge.stop.level 70
@@ -840,6 +839,7 @@ on post-fs-data
     chown bluetooth system /proc/bluetooth/sleep/btwake
     chown bluetooth system /proc/bluetooth/sleep/lpm
     chown bluetooth system /proc/bluetooth/sleep/btwrite
+    mkdir /data/vendor/bluetooth 0770 bluetooth system
 
 # ODPM
 on fs
@@ -919,6 +919,8 @@ on property:vendor.thermal.link_ready=1
     chown system system /dev/thermal/tz-by-name/quiet_therm/trip_point_0_hyst
     chown system system /dev/thermal/tz-by-name/usb_conn_therm/trip_point_0_temp
     chown system system /dev/thermal/tz-by-name/usb_conn_therm/trip_point_0_hyst
+    chown system system /dev/thermal/tz-by-name/btmspkr_therm/trip_point_0_temp
+    chown system system /dev/thermal/tz-by-name/btmspkr_therm/trip_point_0_hyst
     chown system system /dev/thermal/cdev-by-name/thermal-cpufreq-0/user_vote
     chown system system /dev/thermal/cdev-by-name/thermal-cpufreq-1/user_vote
     chown system system /dev/thermal/cdev-by-name/thermal-cpufreq-2/user_vote
