@@ -385,10 +385,6 @@ on post-fs-data
     # Compatibility path for TPU
     symlink /dev/edgetpu-soc /dev/edgetpu
 
-on post-fs-data && property:ro.boot.hardware.platform=zumapro
-    # Hold wake lock during bringup stage (b/295590204)
-    write /sys/power/wake_lock zumapro_bringup
-
 on zygote-start
     # For PixelLogger configuration file.
     chmod 0771 /data/vendor/wifi
