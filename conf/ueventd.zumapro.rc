@@ -229,3 +229,6 @@
 
 # Wlan
 /dev/wlan                              0660   wifi       wifi
+
+# USB Alt Modes
+/sys/devices/platform/108d0000.hsi2c/i2c-*/*-0025/typec/port0/port0-partner/port0-partner.*    mode1/active    0664    system    system
