@@ -275,6 +275,9 @@ PRODUCT_VENDOR_PROPERTIES += \
 	debug.renderengine.backend=skiavkthreaded
 endif
 
+# b/295257834 Add HDR shaders to SurfaceFlinger's pre-warming cache
+PRODUCT_VENDOR_PROPERTIES += ro.surface_flinger.prime_shader_cache.ultrahdr=1
+
 # Mali Configuration Properties
 # b/221255664 prevents setting PROTECTED_MAX_CORE_COUNT=2
 PRODUCT_VENDOR_PROPERTIES += \
