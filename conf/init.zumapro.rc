@@ -524,6 +524,9 @@ on fs
     mkdir /mnt/vendor/persist/data/tz 0700 system system
     mkdir /mnt/vendor/persist/touch 0770 system system
 
+    # for battery defender
+    mkdir /mnt/vendor/persist/battery 0700 system system
+
 # Permissions for ION
     chmod 0660 /sys/class/ion_cma/ion_video_ext/isolated
     chown system system /sys/class/ion_cma/ion_video_ext/isolated
