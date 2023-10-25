@@ -72,7 +72,8 @@ const struct SysfsCollector::SysfsPaths sysfs_paths = {
         }
     },
     .ModemPcieLinkStatsPath = "/sys/devices/platform/12100000.pcie/link_stats",
-    .WifiPcieLinkStatsPath = "/sys/devices/platform/13120000.pcie/link_stats"
+    .WifiPcieLinkStatsPath = "/sys/devices/platform/13120000.pcie/link_stats",
+    .GMSRPath = "/sys/class/power_supply/max77779fg/gmsr"
 };
 
 const struct UeventListener::UeventPaths ueventPaths = {
