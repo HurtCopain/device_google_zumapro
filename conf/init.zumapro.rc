@@ -507,6 +507,9 @@ on fs
     restorecon_recursive /mnt/vendor/modem_userdata
     chown radio system /mnt/vendor/modem_userdata
 
+    # for battery defender
+    mkdir /mnt/vendor/persist/battery 0700 system system
+
     # Mount modem partition
     mount_all /vendor/etc/fstab.modem --early
     restorecon_recursive /mnt/vendor/modem_img
@@ -524,9 +527,6 @@ on fs
     mkdir /mnt/vendor/persist/data/sfs 0700 system system
     mkdir /mnt/vendor/persist/data/tz 0700 system system
     mkdir /mnt/vendor/persist/touch 0770 system system
-
-    # for battery defender
-    mkdir /mnt/vendor/persist/battery 0700 system system
 
 # Permissions for ION
     chmod 0660 /sys/class/ion_cma/ion_video_ext/isolated
