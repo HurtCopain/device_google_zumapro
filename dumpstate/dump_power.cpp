@@ -187,7 +187,7 @@ void dumpMaxFg() {
 
     const char *max77779fgFiles [][2] = {
             {"Power supply property max77779fg", "/sys/class/power_supply/max77779fg/uevent"},
-            {"m5_state", "/sys/class/power_supply/max77779fg/model_state"},
+            {"model_state", "/sys/class/power_supply/max77779fg/model_state"},
             {"max77779fg logbuffer", "/dev/logbuffer_max77779fg"},
             {"max77779fg_monitor logbuffer", "/dev/logbuffer_max77779fg_monitor"},
     };
@@ -422,12 +422,12 @@ void printValuesOfDirectory(const char *directory, std::string debugfs, const ch
 
 void dumpChgUserDebug() {
     const char *chgDebugMax77759 [][2] {
-            {"max77759_chg registers dump", "/d/max77759_chg/registers/"},
-            {"max77729_pmic registers dump", "/d/max77729_pmic/registers/"},
+            {"max77759_chg registers dump", "/d/max77759_chg/registers"},
+            {"max77729_pmic registers dump", "/d/max77729_pmic/registers"},
     };
     const char *chgDebugMax77779 [][2] {
-            {"max77779_chg registers dump", "/d/max77779_chg/registers/"},
-            {"max77779_pmic registers dump", "/d/max77779_pmic/registers/"},
+            {"max77779_chg registers dump", "/d/max77779_chg/registers"},
+            {"max77779_pmic registers dump", "/d/max77779_pmic/registers"},
     };
 
     const std::string debugfs = "/d/";
@@ -460,9 +460,11 @@ void dumpChgUserDebug() {
     if (isUserBuild())
         return;
 
-    dumpFileContent(dcRegName, dcRegDir);
+    if (isValidFile(dcRegDir)) {
+        dumpFileContent(dcRegName, dcRegDir);
+    }
 
-    if (isValidFile(baseChgDir)) {
+    if (isValidDir(baseChgDir)) {
         for (auto &row : chgDebugMax77759) {
             dumpFileContent(row[0], row[1]);
         }
@@ -474,7 +476,7 @@ void dumpChgUserDebug() {
 
     dumpFileContent(chgTblName, chgTblDir);
 
-    if (isValidFile(maxFgDir)) {
+    if (isValidDir(maxFgDir)) {
         for (auto & directory : maxFgInfo) {
             printValuesOfDirectory(directory, debugfs, maxFgStrMatch);
         }
