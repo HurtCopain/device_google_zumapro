@@ -928,6 +928,32 @@ void dumpIrqDurationCounts() {
     }
 }
 
+void dumpEvtCounter() {
+    const char* title = "Event Counter";
+    const char* evtCntDir = "/sys/devices/virtual/pmic/mitigation/instruction/";
+
+    const char* evtCnt [][2] {
+            {"batoilo1", "evt_cnt_batoilo1"},
+            {"batoilo2", "evt_cnt_batoilo2"},
+            {"uvlo1", "evt_cnt_uvlo1"},
+            {"uvlo2", "evt_cnt_uvlo2"},
+    };
+
+    printTitle(title);
+    printf("name\tcount\n");
+
+    for (const auto &row : evtCnt) {
+        std::string name = row[0];
+        std::string fileLocation = std::string(evtCntDir) + std::string(row[1]);
+        std::string count = "N/A\n";
+        if (!android::base::ReadFileToString(fileLocation, &count)) {
+            count = "invalid\n";
+        }
+
+        printf("%s\t%s", name.c_str(), count.c_str());
+    }
+}
+
 int main() {
     dumpPowerStatsTimes();
     dumpAcpmStats();
@@ -948,5 +974,6 @@ int main() {
     dumpMitigationStats();
     dumpMitigationDirs();
     dumpIrqDurationCounts();
+    dumpEvtCounter();
 }
 
