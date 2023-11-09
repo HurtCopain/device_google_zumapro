@@ -333,9 +333,9 @@ void addCPUclusters(std::shared_ptr<PowerStats> p) {
     p->addEnergyConsumer(PowerStatsEnergyConsumer::createMeterConsumer(p,
             EnergyConsumerType::CPU_CLUSTER, "CPUCL0", {"S4M_VDD_CPUCL0"}));
     p->addEnergyConsumer(PowerStatsEnergyConsumer::createMeterConsumer(p,
-            EnergyConsumerType::CPU_CLUSTER, "CPUCL1", {"S3M_VDD_CPUCL1"}));
+            EnergyConsumerType::CPU_CLUSTER, "CPUCL1", {"S2M_VDD_CPUCL1"}));
     p->addEnergyConsumer(PowerStatsEnergyConsumer::createMeterConsumer(p,
-            EnergyConsumerType::CPU_CLUSTER, "CPUCL2", {"S2M_VDD_CPUCL2"}));
+            EnergyConsumerType::CPU_CLUSTER, "CPUCL2", {"S3M_VDD_CPUCL2"}));
 }
 
 void addGPU(std::shared_ptr<PowerStats> p) {
