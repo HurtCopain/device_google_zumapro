@@ -41,9 +41,9 @@ then
   cat "/sys/class/power_supply/maxfg/uevent"
   echo "\n------ m5_state ------"
   cat "/sys/class/power_supply/maxfg/m5_model_state"
-  echo "\n------ maxfg logbuffer------"
+  echo "\n------ maxfg logbuffer ------"
   cat "/dev/logbuffer_maxfg"
-  echo "\n------ maxfg_monitor logbuffer------"
+  echo "\n------ maxfg_monitor logbuffer ------"
   cat "/dev/logbuffer_maxfg_monitor"
 elif [ -d "/sys/class/power_supply/max77779fg" ]
 then
@@ -51,7 +51,7 @@ then
   cat "/sys/class/power_supply/max77779fg/uevent"
   echo "\n------ m5_state ------"
   cat "/sys/class/power_supply/max77779fg/model_state"
-  echo "\n------ max77779fg logbuffer------"
+  echo "\n------ max77779fg logbuffer ------"
   cat "/dev/logbuffer_max77779fg"
   echo "\n------ max77779fg_monitor logbuffer ------"
   cat "/dev/logbuffer_max77779fg_monitor"
@@ -62,13 +62,13 @@ else
   cat "/sys/class/power_supply/maxfg_flip/uevent"
   echo "\n------ m5_state ------"
   cat "/sys/class/power_supply/maxfg_base/m5_model_state"
-  echo "\n------ maxfg_base logbuffer------"
+  echo "\n------ maxfg_base logbuffer ------"
   cat "/dev/logbuffer_maxfg_base"
-  echo "\n------ maxfg_flip logbuffer------"
+  echo "\n------ maxfg_flip logbuffer ------"
   cat "/dev/logbuffer_maxfg_flip"
-  echo "\n------ maxfg_base_monitor logbuffer------"
+  echo "\n------ maxfg_base_monitor logbuffer ------"
   cat "/dev/logbuffer_maxfg_base_monitor"
-  echo "\n------ maxfg_flip_monitor logbuffer------"
+  echo "\n------ maxfg_flip_monitor logbuffer ------"
   cat "/dev/logbuffer_maxfg_flip_monitor"
 fi
 
@@ -117,11 +117,11 @@ do
   cat $f/contaminant_detection_status
 done
 
-echo "\n------ PD Engine logbuffer------"
+echo "\n------ PD Engine logbuffer ------"
 cat "/dev/logbuffer_usbpd"
-echo "\n------ PPS-google_cpm logbuffer------"
+echo "\n------ PPS-google_cpm logbuffer ------"
 cat "/dev/logbuffer_cpm"
-echo "\n------ PPS-dc logbuffer------"
+echo "\n------ PPS-dc logbuffer ------"
 if [ -d "/dev/logbuffer_pca9468" ]
 then
   cat "/dev/logbuffer_pca9468"
@@ -131,9 +131,9 @@ fi
 
 echo "\n------ Battery Health ------"
 cat "/sys/class/power_supply/battery/health_index_stats"
-echo "\n------ BMS logbuffer------"
+echo "\n------ BMS logbuffer ------"
 cat "/dev/logbuffer_ssoc"
-echo "\n------ TTF logbuffer-----"
+echo "\n------ TTF logbuffer ------"
 cat "/dev/logbuffer_ttf"
 echo "\n------ TTF details ------"
 cat "/sys/class/power_supply/battery/ttf_details"
@@ -145,7 +145,7 @@ echo "\n------ pairing_state ------"
 cat "/sys/class/power_supply/battery/pairing_state"
 if [ -d "/dev/logbuffer_maxq" ]
 then
-  echo "\n------ maxq logbuffer------"
+  echo "\n------ maxq logbuffer ------"
   cat "/dev/logbuffer_maxq"
 fi
 echo "\n------ TEMP/DOCK-DEFEND ------"
@@ -259,7 +259,7 @@ then
   done
 fi
 
-echo "\n------ WLC logs logbuffer------"
+echo "\n------ WLC logs logbuffer ------"
 cat "/dev/logbuffer_wireless"
 echo "\n------ WLC VER ------"
 cat "/sys/class/power_supply/wireless/device/version"
@@ -267,7 +267,7 @@ echo "\n------ WLC STATUS ------"
 cat "/sys/class/power_supply/wireless/device/status"
 echo "\n------ WLC FW Version ------"
 cat "/sys/class/power_supply/wireless/device/fw_rev"
-echo "\n------ RTX logbuffer------"
+echo "\n------ RTX logbuffer ------"
 cat "/dev/logbuffer_rtx"
 
 if [ $build_type = "userdebug" ]
