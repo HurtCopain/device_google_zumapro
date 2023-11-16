@@ -38,7 +38,8 @@ BOARD_KERNEL_CMDLINE += cma_sysfs.experimental=Y
 BOARD_KERNEL_CMDLINE += cgroup_disable=memory
 BOARD_KERNEL_CMDLINE += cgroup.memory=nokmem
 BOARD_KERNEL_CMDLINE += rcupdate.rcu_expedited=1 rcu_nocbs=all
-BOARD_KERNEL_CMDLINE += swiotlb=1024
+BOARD_KERNEL_CMDLINE += swiotlb=noforce
+BOARD_KERNEL_CMDLINE += disable_dma32=on
 BOARD_KERNEL_CMDLINE += sysctl.kernel.sched_pelt_multiplier=4
 BOARD_BOOTCONFIG += androidboot.boot_devices=13200000.ufs
 
