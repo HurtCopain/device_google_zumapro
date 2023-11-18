@@ -1153,6 +1153,8 @@ include device/google/gs-common/pixel_ril/ril.mk
 endif
 endif
 
+SUPPORT_VENDOR_SATELLITE_SERVICE := true
+
 # Touch service
 include hardware/google/pixel/input/twoshay.mk
 
