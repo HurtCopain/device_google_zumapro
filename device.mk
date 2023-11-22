@@ -1159,3 +1159,5 @@ SUPPORT_VENDOR_SATELLITE_SERVICE := true
 include hardware/google/pixel/input/twoshay.mk
 
 PRODUCT_CHECK_VENDOR_SEAPP_VIOLATIONS := true
+
+PRODUCT_CHECK_DEV_TYPE_VIOLATIONS := true
