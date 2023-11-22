@@ -310,4 +310,8 @@
 
     <!-- Telephony satellite service package name to bind to by default. -->
     <string name="config_satellite_service_package">com.google.android.satellite</string>
+
+    <!-- Boolean indicating if restoring network selection should be skipped -->
+    <!-- The restoring is handled by modem if it is true -->
+    <bool translatable="false" name="skip_restoring_network_selection">true</bool>
 </resources>
