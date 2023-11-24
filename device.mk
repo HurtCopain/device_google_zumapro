@@ -334,8 +334,7 @@ DEVICE_MATRIX_FILE := \
 
 DEVICE_PACKAGE_OVERLAYS += device/google/zumapro/overlay
 
-# This will be updated to 34 (Android U) for shipping
-PRODUCT_SHIPPING_API_LEVEL := 33
+PRODUCT_SHIPPING_API_LEVEL := 34
 
 # RKP VINTF
 -include vendor/google_nos/host/android/hals/keymaster/aidl/strongbox/RemotelyProvisionedComponent-citadel.mk
@@ -1159,3 +1158,5 @@ SUPPORT_VENDOR_SATELLITE_SERVICE := true
 include hardware/google/pixel/input/twoshay.mk
 
 PRODUCT_CHECK_VENDOR_SEAPP_VIOLATIONS := true
+
+PRODUCT_CHECK_DEV_TYPE_VIOLATIONS := true

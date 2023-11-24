@@ -387,6 +387,7 @@ on post-fs-data
     # Audio dump and debug
     mkdir /data/vendor/audio 0770 audio audio
 
+    write /data/1.txt "zuma"
     # Create the directories for Darwinn HAL.
     mkdir /data/vendor/hal_neuralnetworks_darwinn 0770 system system
     mkdir /data/vendor/hal_neuralnetworks_darwinn/checksum_cache 0770 system system
