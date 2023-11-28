@@ -13,6 +13,8 @@ on init
 
     # Set teo as cpu idle governor
     write /sys/devices/system/cpu/cpuidle/current_governor teo
+    # Disable util-awareness for mids and bigs
+    write /proc/vendor_sched/teo_util_threshold "2 1024 1024"
 
     # Boot time fs tuning
     write /sys/block/sda/queue/iostats 0
@@ -675,7 +677,7 @@ on property:init.svc.vendor.charger=running
     write /sys/devices/system/cpu/cpu3/online 0
     write /sys/devices/system/cpu/cpu4/online 0
     write /sys/devices/system/cpu/cpu5/online 0
-    write /sys/devices/system/cpu/cpu7/online 0
+    write /sys/devices/system/cpu/cpu6/online 0
 
 on property:sys.boot_completed=1
 
