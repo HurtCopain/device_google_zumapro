@@ -311,6 +311,12 @@
     <!-- Telephony satellite service package name to bind to by default. -->
     <string name="config_satellite_service_package">com.google.android.satellite</string>
 
+    <!-- Telephony pointing UI package name to be launched. -->
+    <string name="config_pointing_ui_package">com.google.android.apps.scone</string>
+
+    <!-- Telephony pointing UI class name to be launched. -->
+    <string name="config_pointing_ui_class">com.google.android.apps.scone.satellite.pointingui.ui.PointingUiActivity</string>
+
     <!-- Boolean indicating if restoring network selection should be skipped -->
     <!-- The restoring is handled by modem if it is true -->
     <bool translatable="false" name="skip_restoring_network_selection">true</bool>
