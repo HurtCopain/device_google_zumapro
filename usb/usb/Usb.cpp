@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <chrono>
 #include <regex>
 #include <thread>
 #include <unordered_map>
@@ -42,6 +43,7 @@
 
 #include <aidl/android/frameworks/stats/IStats.h>
 #include <android_hardware_usb_flags.h>
+#include <pixelusb/CommonUtils.h>
 #include <pixelusb/UsbGadgetAidlCommon.h>
 #include <pixelstats/StatsHelper.h>
 
@@ -93,17 +95,6 @@ constexpr char kPogoUsbActive[] = "/sys/devices/platform/google,pogo/pogo_usb_ac
 constexpr char kPogoEnableUsb[] = "/sys/devices/platform/google,pogo/enable_usb";
 constexpr char kPowerSupplyUsbType[] = "/sys/class/power_supply/usb/usb_type";
 constexpr char kIrqHpdCounPath[] = "-0025/irq_hpd_count";
-constexpr char kUdcUeventRegex[] =
-    "/devices/platform/11210000.usb/11210000.dwc3/udc/11210000.dwc3";
-constexpr char kUdcStatePath[] =
-    "/sys/devices/platform/11210000.usb/11210000.dwc3/udc/11210000.dwc3/state";
-constexpr char kHost1UeventRegex[] =
-    "/devices/platform/11210000.usb/11210000.dwc3/xhci-hcd-exynos.[0-9].auto/usb1/1-0:1.0";
-constexpr char kHost1StatePath[] = "/sys/bus/usb/devices/usb1/1-0:1.0/usb1-port1/state";
-constexpr char kHost2UeventRegex[] =
-    "/devices/platform/11210000.usb/11210000.dwc3/xhci-hcd-exynos.[0-9].auto/usb2/2-0:1.0";
-constexpr char kHost2StatePath[] = "/sys/bus/usb/devices/usb2/2-0:1.0/usb2-port1/state";
-constexpr char kDataRolePath[] = "/sys/devices/platform/11210000.usb/new_data_role";
 constexpr int kSamplingIntervalSec = 5;
 void queryVersionHelper(android::hardware::usb::Usb *usb,
                         std::vector<PortStatus> *currentPortStatus);
@@ -510,20 +501,11 @@ bool switchMode(const string &portName, const PortRole &in_role, struct Usb *usb
     return roleSwitch;
 }
 
-void updatePortStatus(android::hardware::usb::Usb *usb) {
-    std::vector<PortStatus> currentPortStatus;
-
-    queryVersionHelper(usb, &currentPortStatus);
-}
-
 Usb::Usb()
     : mLock(PTHREAD_MUTEX_INITIALIZER),
       mRoleSwitchLock(PTHREAD_MUTEX_INITIALIZER),
       mPartnerLock(PTHREAD_MUTEX_INITIALIZER),
       mPartnerUp(false),
-      mUsbDataSessionMonitor(kUdcUeventRegex, kUdcStatePath, kHost1UeventRegex, kHost1StatePath,
-                             kHost2UeventRegex, kHost2StatePath, kDataRolePath,
-                             std::bind(&updatePortStatus, this)),
       mOverheat(ZoneInfo(TemperatureType::USB_PORT, kThermalZoneForTrip,
                          ThrottlingSeverity::CRITICAL),
                 {ZoneInfo(TemperatureType::UNKNOWN, kThermalZoneForTempReadPrimary,
@@ -1059,18 +1041,6 @@ Status queryDisplayPortStatus(android::hardware::usb::Usb *usb,
     (*currentPortStatus)[0].supportedAltModes.push_back(dpData);
 
     return Status::SUCCESS;
-}
-
-void queryUsbDataSession(android::hardware::usb::Usb *usb,
-                          std::vector<PortStatus> *currentPortStatus) {
-    std::vector<ComplianceWarning> warnings;
-
-    usb->mUsbDataSessionMonitor.getComplianceWarnings(
-        (*currentPortStatus)[0].currentDataRole, &warnings);
-    (*currentPortStatus)[0].complianceWarnings.insert(
-        (*currentPortStatus)[0].complianceWarnings.end(),
-        warnings.begin(),
-        warnings.end());
 }
 
 void queryVersionHelper(android::hardware::usb::Usb *usb,
