@@ -39,7 +39,7 @@ include device/google/gs-common/widevine/widevine.mk
 include device/google/gs-common/sota_app/factoryota.mk
 include device/google/gs-common/misc_writer/misc_writer.mk
 include device/google/gs-common/gyotaku_app/gyotaku.mk
-include device/google/gs-common/bootctrl/bootctrl_hidl_1.2.mk
+include device/google/gs-common/bootctrl/bootctrl_aidl.mk
 
 include device/google/zumapro/dumpstate/item.mk
 
@@ -1000,7 +1000,11 @@ PRODUCT_PACKAGES += \
 
 # Audio
 # Audio HAL Server & Default Implementations
+ifeq ($(RELEASE_PIXEL_AIDL_AUDIO_HAL),true)
+include device/google/gs-common/audio/aidl.mk
+else
 include device/google/gs-common/audio/hidl_zuma.mk
+endif
 
 ## AoC soong
 PRODUCT_SOONG_NAMESPACES += \
