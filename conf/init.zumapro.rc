@@ -939,9 +939,8 @@ on property:vendor.thermal.link_ready=1
     write /sys/devices/virtual/pmic/mitigation/clock_ratio/gpu_heavy_clk_ratio 0xfff04380 #DFS
     write /sys/devices/virtual/pmic/mitigation/clock_ratio/tpu_heavy_clk_ratio 0xfff041c0 #DFS
     write /sys/devices/virtual/pmic/mitigation/triggered_lvl/smpl_lvl 3000
-    write /sys/devices/virtual/pmic/mitigation/triggered_lvl/ocp_gpu_lvl 8000
     write /sys/devices/virtual/pmic/mitigation/triggered_lvl/soft_ocp_cpu2_lvl 12000
-    write /sys/devices/virtual/pmic/mitigation/triggered_lvl/soft_ocp_gpu_lvl 5000
+    write /sys/devices/virtual/pmic/mitigation/triggered_lvl/soft_ocp_gpu_lvl 9000
     write /sys/devices/virtual/pmic/mitigation/triggered_lvl/soft_ocp_tpu_lvl 8500
     write /sys/devices/virtual/pmic/mitigation/clock_div/tpu_clk_div 0x1
     write /sys/devices/virtual/pmic/mitigation/clock_div/gpu_clk_div 0x1
@@ -975,6 +974,8 @@ on property:vendor.thermal.link_ready=1
     chown system system /dev/thermal/tz-by-name/soc/trip_point_0_hyst
     chown system system /dev/thermal/tz-by-name/batoilo/trip_point_0_temp
     chown system system /dev/thermal/tz-by-name/batoilo/trip_point_0_hyst
+    chown system system /dev/thermal/tz-by-name/batoilo2/trip_point_0_temp
+    chown system system /dev/thermal/tz-by-name/batoilo2/trip_point_0_hyst
     # Thermal
     chown system system /dev/thermal/tz-by-name/disp_therm/trip_point_0_temp
     chown system system /dev/thermal/tz-by-name/disp_therm/trip_point_0_hyst
