@@ -275,7 +275,7 @@ PRODUCT_VENDOR_PROPERTIES += \
 	ro.hardware.egl=mali \
 	ro.hardware.vulkan=mali
 PRODUCT_VENDOR_PROPERTIES += \
-	debug.renderengine.backend=skiavkthreaded
+	debug.renderengine.backend=skiaglthreaded
 endif
 
 # b/295257834 Add HDR shaders to SurfaceFlinger's pre-warming cache
