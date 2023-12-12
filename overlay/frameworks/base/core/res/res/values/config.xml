@@ -62,6 +62,8 @@
          on the headphone/microphone jack. When false use the older uevent framework. -->
     <bool name="config_useDevInputEventForAudioJack">true</bool>
 
+    <bool name="config_safe_sound_dosage_enabled">true</bool>
+
     <string translatable="false" name="config_radio_access_family">GSM|CDMA|EVDO|WCDMA|LTE</string>
 
     <!-- Enable doze mode
