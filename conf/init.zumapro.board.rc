@@ -1,6 +1,7 @@
 import /vendor/etc/init/hw/init.zumapro.usb.rc
 import android.hardware.drm@1.2-service.widevine.rc
 import init.exynos.sensorhub.rc
+import /vendor/etc/init/hw/init.${ro.boot.hardware.platform}.soc.rc
 
 on early-init
     mount_all /vendor/etc/fstab.persist --early
@@ -51,29 +52,6 @@ on init
     chown system system /proc/vendor_sched/prefer_idle_clear
     chown system system /proc/vendor_sched/pmu_poll_enable
     chown system system /proc/vendor_sched/pmu_poll_time
-    chown system system /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/lcpi_threshold
-    chown system system /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/spc_threshold
-    chown system system /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/limit_frequency
-    chown system system /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/pmu_limit_enable
-    chown system system /sys/devices/system/cpu/cpufreq/policy4/sched_pixel/lcpi_threshold
-    chown system system /sys/devices/system/cpu/cpufreq/policy4/sched_pixel/spc_threshold
-    chown system system /sys/devices/system/cpu/cpufreq/policy4/sched_pixel/limit_frequency
-    chown system system /sys/devices/system/cpu/cpufreq/policy4/sched_pixel/pmu_limit_enable
-    chown system system /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/lcpi_threshold
-    chown system system /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/spc_threshold
-    chown system system /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/limit_frequency
-    chown system system /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/pmu_limit_enable
-
-    # FIXME(b/301212469) these nodes missing on zuma pro
-    # TODO(b/308973423) these values need to be tuned
-    chown system system /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu0_memlat@17000010/memlat_cpuidle_state_aware
-    chown system system /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu1_memlat@17000010/memlat_cpuidle_state_aware
-    chown system system /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu2_memlat@17000010/memlat_cpuidle_state_aware
-    chown system system /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu3_memlat@17000010/memlat_cpuidle_state_aware
-    chown system system /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu4_memlat@17000010/memlat_cpuidle_state_aware
-    chown system system /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu5_memlat@17000010/memlat_cpuidle_state_aware
-    chown system system /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu6_memlat@17000010/memlat_cpuidle_state_aware
-    chown system system /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu7_memlat@17000010/memlat_cpuidle_state_aware
 
     chmod 0220 /proc/vendor_sched/groups/bg/set_task_group
     chmod 0220 /proc/vendor_sched/groups/cam/set_task_group
@@ -133,7 +111,7 @@ on init
     symlink /data/app /factory
 
     # Apply network parameters for high data performance.
-    write /proc/sys/net/core/rmem_default 327680
+    write /proc/sys/net/core/rmem_default 1310720
     write /proc/sys/net/core/rmem_max 8388608
     write /proc/sys/net/core/wmem_default 327680
     write /proc/sys/net/core/wmem_max 8388608
@@ -163,66 +141,8 @@ on init
     mkdir /dev/socket/pdx/system/vr/pose 0775 system system
     mkdir /dev/socket/pdx/system/vr/sensors 0775 system system
 
-    # Boot time tuning
-    # Set uclamp_min to capacity of little core + 1 to avoid little core
-    write /proc/vendor_sched/groups/ta/uclamp_min 190
-    write /proc/vendor_sched/groups/ta/prefer_idle 1
-    write /proc/vendor_sched/groups/fg/uclamp_min 190
-    write /proc/vendor_sched/groups/fg/prefer_idle 1
-    write /proc/vendor_sched/groups/sys/uclamp_min 190
-    write /proc/vendor_sched/groups/sys/prefer_idle 1
-
-    # governor setting
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor sched_pixel
-    write /sys/devices/system/cpu/cpu0/cpufreq/sched_pixel/up_rate_limit_us 500
-    write /sys/devices/system/cpu/cpu0/cpufreq/sched_pixel/down_rate_limit_us 5000
-    write /sys/devices/system/cpu/cpu0/cpufreq/sched_pixel/down_rate_limit_scale_pow 2
-    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor sched_pixel
-    write /sys/devices/system/cpu/cpu4/cpufreq/sched_pixel/up_rate_limit_us 500
-    write /sys/devices/system/cpu/cpu4/cpufreq/sched_pixel/down_rate_limit_us 20000
-    write /sys/devices/system/cpu/cpu7/cpufreq/scaling_governor sched_pixel
-    write /sys/devices/system/cpu/cpu7/cpufreq/sched_pixel/up_rate_limit_us 500
-    write /sys/devices/system/cpu/cpu7/cpufreq/sched_pixel/down_rate_limit_us 20000
-
-
-    # memlat cpuidle awareness setting
-    # FIXME(b/301212469) these nodes missing on zuma pro
-    # TODO(b/308973423) these values need to be tuned
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu0_memlat@17000010/memlat_cpuidle_state_aware 2
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu1_memlat@17000010/memlat_cpuidle_state_aware 2
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu2_memlat@17000010/memlat_cpuidle_state_aware 2
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu3_memlat@17000010/memlat_cpuidle_state_aware 2
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu4_memlat@17000010/memlat_cpuidle_state_aware 2
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu5_memlat@17000010/memlat_cpuidle_state_aware 2
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu6_memlat@17000010/memlat_cpuidle_state_aware 2
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu7_memlat@17000010/memlat_cpuidle_state_aware 2
-
     # RT uclamp setting
     write /proc/sys/kernel/sched_util_clamp_min_rt_default 0
-
-    # change permissions and default values for camera-daemon cpu controller
-    chown system system /dev/cpuctl/camera-daemon/cpu.uclamp.min
-    chown system system /dev/cpuctl/camera-daemon/cpu.uclamp.max
-    chown root root /dev/cpuctl/camera-daemon/cpu.uclamp.latency_sensitive
-    chown system system /dev/cpuctl/camera-daemon/cgroup.procs
-
-    mkdir /dev/cpuset/camera-daemon-high-group
-    write /dev/cpuset/camera-daemon-high-group/cpus 0-7
-    write /dev/cpuset/camera-daemon-high-group/mems 0
-    chown system system /dev/cpuset/camera-daemon-high-group/tasks
-    chmod 0664 /dev/cpuset/camera-daemon-high-group/tasks
-
-    mkdir /dev/cpuset/camera-daemon-mid-group
-    write /dev/cpuset/camera-daemon-mid-group/cpus 0-7
-    write /dev/cpuset/camera-daemon-mid-group/mems 0
-    chown system system /dev/cpuset/camera-daemon-mid-group/tasks
-    chmod 0664 /dev/cpuset/camera-daemon-mid-group/tasks
-
-    mkdir /dev/cpuset/camera-daemon-mid-high-group
-    write /dev/cpuset/camera-daemon-mid-high-group/cpus 0-7
-    write /dev/cpuset/camera-daemon-mid-high-group/mems 0
-    chown system system /dev/cpuset/camera-daemon-mid-high-group/tasks
-    chmod 0664 /dev/cpuset/camera-daemon-mid-high-group/tasks
 
     write /proc/vendor_sched/groups/cam/prefer_idle 1
     write /proc/vendor_sched/groups/cam/uclamp_min 1
@@ -245,36 +165,8 @@ on init
     write /proc/vendor_sched/groups/nnapi/prefer_idle 0
     write /proc/vendor_sched/groups/nnapi/uclamp_min 512
 
-    # Add memlat governor settings
-    # FIXME(b/301212469) these nodes missing on zuma pro
-    # TODO(b/308973423) these values need to be tuned
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu0_memlat@17000010/polling_interval 10
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu1_memlat@17000010/polling_interval 10
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu2_memlat@17000010/polling_interval 10
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu3_memlat@17000010/polling_interval 10
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu4_memlat@17000010/polling_interval 10
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu5_memlat@17000010/polling_interval 10
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu6_memlat@17000010/polling_interval 10
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu7_memlat@17000010/polling_interval 10
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu0_memlat@17000010/mem_latency/ratio_ceil 1800
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu1_memlat@17000010/mem_latency/ratio_ceil 1800
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu2_memlat@17000010/mem_latency/ratio_ceil 1800
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu3_memlat@17000010/mem_latency/ratio_ceil 1800
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu4_memlat@17000010/mem_latency/ratio_ceil 3700
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu5_memlat@17000010/mem_latency/ratio_ceil 3700
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu6_memlat@17000010/mem_latency/ratio_ceil 3700
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu7_memlat@17000010/mem_latency/ratio_ceil 3700
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu0_memlat@17000010/mem_latency/stall_floor 3000
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu1_memlat@17000010/mem_latency/stall_floor 3000
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu2_memlat@17000010/mem_latency/stall_floor 3000
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu3_memlat@17000010/mem_latency/stall_floor 3000
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu4_memlat@17000010/mem_latency/stall_floor 2400
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu5_memlat@17000010/mem_latency/stall_floor 2400
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu6_memlat@17000010/mem_latency/stall_floor 2400
-    write /sys/class/devfreq/gs_memlat_devfreq:devfreq_mif_cpu7_memlat@17000010/mem_latency/stall_floor 2400
-
     # Set boost_adpf_prio, -1 by default
-    # write /proc/vendor_sched/boost_adpf_prio ${persist.device_config.vendor_system_native_boot.boost_adpf_prio:--1}
+    write /proc/vendor_sched/boost_adpf_prio ${persist.device_config.vendor_system_native_boot.boost_adpf_prio:--1}
 
     # Add dsulat governor settings
     # TODO(b/308970898): tune these values
@@ -396,36 +288,6 @@ on post-fs-data
 
     # Compatibility path for TPU
     symlink /dev/edgetpu-soc /dev/edgetpu
-
-on zygote-start
-    # For PixelLogger configuration file.
-    chmod 0771 /data/vendor/wifi
-    write /proc/vendor_sched/groups/ta/uclamp_min 1
-    write /proc/vendor_sched/groups/fg/uclamp_min 0
-    write /proc/vendor_sched/groups/sys/uclamp_min 0
-    write /proc/vendor_sched/groups/ta/preferred_idle_mask_low 0x3f
-    write /proc/vendor_sched/groups/ta/preferred_idle_mask_mid 0xf0
-    write /proc/vendor_sched/groups/ta/preferred_idle_mask_high 0xf0
-    write /proc/vendor_sched/groups/ta/prefer_idle 1
-    write /proc/vendor_sched/groups/fg/preferred_idle_mask_low 0x3f
-    write /proc/vendor_sched/groups/fg/preferred_idle_mask_mid 0xf0
-    write /proc/vendor_sched/groups/fg/preferred_idle_mask_high 0xf0
-    write /proc/vendor_sched/groups/fg/prefer_idle 1
-    write /proc/vendor_sched/groups/sys/preferred_idle_mask_low 0x3f
-    write /proc/vendor_sched/groups/sys/preferred_idle_mask_mid 0xf0
-    write /proc/vendor_sched/groups/sys/preferred_idle_mask_high 0xf0
-    write /proc/vendor_sched/groups/sys/prefer_idle 1
-
-    write /proc/vendor_sched/groups/bg/ug 0
-    write /proc/vendor_sched/groups/sys_bg/ug 0
-    write /proc/vendor_sched/groups/ota/ug 0
-    write /proc/vendor_sched/groups/dex2oat/ug 1
-    write /proc/vendor_sched/groups/ta/ug 2
-    write /proc/vendor_sched/groups/fg/ug 2
-    write /proc/vendor_sched/groups/nnapi/ug 2
-    write /proc/vendor_sched/groups/rt/ug 2
-    write /proc/vendor_sched/groups/sf/ug 2
-    write /proc/vendor_sched/groups/sys/ug 2
 
 on post-fs-data
     # Create the directories used by the Wireless subsystem
@@ -664,20 +526,6 @@ on property:debug.touch_sensitivity_mode=0
 on property:debug.touch_sensitivity_mode=1
     setprop persist.vendor.touch_sensitivity_mode 1
 
-on property:init.svc.vendor.charger=running
-    stop keymaster-4-0
-
-    setprop sys.usb.configfs 1
-    setprop vendor.setup.power 1
-
-    # keep one little and one big
-    write /sys/devices/system/cpu/cpu1/online 0
-    write /sys/devices/system/cpu/cpu2/online 0
-    write /sys/devices/system/cpu/cpu3/online 0
-    write /sys/devices/system/cpu/cpu4/online 0
-    write /sys/devices/system/cpu/cpu5/online 0
-    write /sys/devices/system/cpu/cpu6/online 0
-
 on property:sys.boot_completed=1
 
     # Runtime fs tuning
@@ -700,9 +548,6 @@ on property:sys.boot_completed=1
     swapon_all /vendor/etc/fstab.${ro.board.platform}
     write /proc/sys/vm/swappiness 60
 
-    # Set kswapd affinity
-    write /sys/kernel/vendor_mm/kswapd_cpu_affinity 7f
-
     # Adjust watermark level
     write /proc/sys/vm/watermark_scale_factor 200
 
@@ -715,26 +560,6 @@ on property:sys.boot_completed=1
 
     # Cancel boot devfreq
     write /sys/devices/platform/17000010.devfreq_mif/devfreq/17000010.devfreq_mif/exynos_data/cancel_boot_freq 1
-
-    # Restore prefer idle
-    write /proc/vendor_sched/groups/ta/preferred_idle_mask_low 0xff
-    write /proc/vendor_sched/groups/ta/preferred_idle_mask_mid 0xff
-    write /proc/vendor_sched/groups/ta/preferred_idle_mask_high 0xff
-    write /proc/vendor_sched/groups/fg/preferred_idle_mask_low 0xff
-    write /proc/vendor_sched/groups/fg/preferred_idle_mask_mid 0xff
-    write /proc/vendor_sched/groups/fg/preferred_idle_mask_high 0xff
-    write /proc/vendor_sched/groups/sys/preferred_idle_mask_low 0xff
-    write /proc/vendor_sched/groups/sys/preferred_idle_mask_mid 0xff
-    write /proc/vendor_sched/groups/sys/preferred_idle_mask_high 0xff
-
-    # Setup final cpuset
-    write /dev/cpuset/top-app/cpus 0-7
-    write /dev/cpuset/foreground/cpus 0-6
-    write /dev/cpuset/background/cpus 0-3
-    write /dev/cpuset/system-background/cpus 0-3
-    write /dev/cpuset/restricted/cpus 0-3
-    write /dev/cpuset/camera-daemon/cpus 0-7
-    setprop vendor.powerhal.init 1
 
     # Setup final cpu.uclamp
     write /proc/vendor_sched/groups/ta/uclamp_min 1
@@ -761,24 +586,6 @@ on property:sys.boot_completed=1
     write /proc/vendor_sched/uclamp_max_filter_divider 4
     write /proc/vendor_sched/uclamp_max_filter_rt 16
     write /proc/vendor_sched/uclamp_max_filter_enable 1
-
-    # Set PMU freq limit parameters
-    write /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/lcpi_threshold 0
-    write /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/spc_threshold 76
-    write /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/limit_frequency 1328000
-    write /sys/devices/system/cpu/cpufreq/policy4/sched_pixel/lcpi_threshold 0
-    write /sys/devices/system/cpu/cpufreq/policy4/sched_pixel/spc_threshold 73
-    write /sys/devices/system/cpu/cpufreq/policy4/sched_pixel/limit_frequency 1836000
-    write /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/lcpi_threshold 0
-    write /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/spc_threshold 68
-    write /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/limit_frequency 2363000
-    write /proc/vendor_sched/pmu_poll_time 10
-
-    # Disable PMU freq limit
-    write /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/pmu_limit_enable 1
-    write /sys/devices/system/cpu/cpufreq/policy4/sched_pixel/pmu_limit_enable 1
-    write /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/pmu_limit_enable 1
-    write /proc/vendor_sched/pmu_poll_enable 0
 
     # Make devices on the critical path for suspend/resume asynchronous
     write /sys/devices/platform/fixedregulator@0/regulator/regulator.2/power/async "enabled"
@@ -1074,29 +881,3 @@ on property:vendor.all.modules.ready=1
     chown system system /sys/bus/i2c/devices/9-0043/dbc/dbc_tx_lvl_hold_off_ms
     chown system system /sys/bus/i2c/devices/9-0043/default/pm_active_timeout_ms
     enable vendor.vibrator.cs40l26
-
-# MTE
-on property:persist.device_config.runtime_native_boot.mode_override=sync
-    # Per-core mode overrides.
-    # Little Cores: sync
-    write /sys/devices/system/cpu/cpu0/mte_tcf_preferred sync
-    write /sys/devices/system/cpu/cpu1/mte_tcf_preferred sync
-    write /sys/devices/system/cpu/cpu2/mte_tcf_preferred sync
-    write /sys/devices/system/cpu/cpu3/mte_tcf_preferred sync
-    # Mid Cores: sync
-    write /sys/devices/system/cpu/cpu4/mte_tcf_preferred sync
-    write /sys/devices/system/cpu/cpu5/mte_tcf_preferred sync
-    write /sys/devices/system/cpu/cpu6/mte_tcf_preferred sync
-    # Big Core: sync
-    write /sys/devices/system/cpu/cpu7/mte_tcf_preferred sync
-
-on property:persist.device_config.runtime_native_boot.mode_override=asymm
-    # Per-core mode overrides.
-    write /sys/devices/system/cpu/cpu0/mte_tcf_preferred asymm
-    write /sys/devices/system/cpu/cpu1/mte_tcf_preferred asymm
-    write /sys/devices/system/cpu/cpu2/mte_tcf_preferred asymm
-    write /sys/devices/system/cpu/cpu3/mte_tcf_preferred asymm
-    write /sys/devices/system/cpu/cpu4/mte_tcf_preferred asymm
-    write /sys/devices/system/cpu/cpu5/mte_tcf_preferred asymm
-    write /sys/devices/system/cpu/cpu6/mte_tcf_preferred asymm
-    write /sys/devices/system/cpu/cpu7/mte_tcf_preferred asymm
