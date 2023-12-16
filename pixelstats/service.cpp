@@ -45,6 +45,7 @@ const struct SysfsCollector::SysfsPaths sysfs_paths = {
     .EEPROMPath = "/dev/battery_history",
     .MitigationPath = "/sys/devices/virtual/pmic/mitigation",
     .BrownoutReasonProp = "vendor.brownout_reason",
+    .BrownoutCsvPath = "/data/vendor/mitigation/lastmeal.csv",
     .BrownoutLogPath = "/data/vendor/mitigation/lastmeal.txt",
     .SpeakerTemperaturePath = "/sys/devices/platform/audiometrics/speaker_temp",
     .SpeakerExcursionPath = "/sys/devices/platform/audiometrics/speaker_excursion",

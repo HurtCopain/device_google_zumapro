@@ -39,6 +39,7 @@ include device/google/gs-common/widevine/widevine.mk
 include device/google/gs-common/sota_app/factoryota.mk
 include device/google/gs-common/misc_writer/misc_writer.mk
 include device/google/gs-common/gyotaku_app/gyotaku.mk
+include device/google/gs-common/bootctrl/bootctrl_aidl.mk
 
 include device/google/zumapro/dumpstate/item.mk
 
@@ -215,6 +216,7 @@ USE_LASSEN_OEMHOOK := true
 
 # Use for GRIL
 USES_LASSEN_MODEM := true
+USE_WHI_GRIL_RECOVERY := true
 
 ifeq ($(USES_GOOGLE_DIALER_CARRIER_SETTINGS),true)
 USE_GOOGLE_DIALER := true
@@ -273,7 +275,7 @@ PRODUCT_VENDOR_PROPERTIES += \
 	ro.hardware.egl=mali \
 	ro.hardware.vulkan=mali
 PRODUCT_VENDOR_PROPERTIES += \
-	debug.renderengine.backend=skiavkthreaded
+	debug.renderengine.backend=skiaglthreaded
 endif
 
 # b/295257834 Add HDR shaders to SurfaceFlinger's pre-warming cache
@@ -334,8 +336,7 @@ DEVICE_MATRIX_FILE := \
 
 DEVICE_PACKAGE_OVERLAYS += device/google/zumapro/overlay
 
-# This will be updated to 34 (Android U) for shipping
-PRODUCT_SHIPPING_API_LEVEL := 33
+PRODUCT_SHIPPING_API_LEVEL := 34
 
 # RKP VINTF
 -include vendor/google_nos/host/android/hals/keymaster/aidl/strongbox/RemotelyProvisionedComponent-citadel.mk
@@ -351,7 +352,9 @@ PRODUCT_COPY_FILES += \
 	device/google/zumapro/conf/ueventd.zumapro.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
 
 PRODUCT_COPY_FILES += \
-	device/google/zumapro/conf/init.zumapro.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.zumapro.rc
+	device/google/zumapro/conf/init.zumapro.soc.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.zumapro.soc.rc \
+	device/google/zumapro/conf/init.zuma.soc.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.zuma.soc.rc \
+	device/google/zumapro/conf/init.zumapro.board.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.zumapro.board.rc
 
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
 PRODUCT_COPY_FILES += \
@@ -926,11 +929,6 @@ PRODUCT_PACKAGES += \
 	ImsMediaService \
 	libimsmedia
 
-# Boot Control HAL
-PRODUCT_PACKAGES += \
-	android.hardware.boot@1.2-impl-zumapro \
-	android.hardware.boot@1.2-service-zumapro
-
 # Exynos RIL and telephony
 # Multi SIM(DSDS)
 SIM_COUNT := 2
@@ -1005,7 +1003,11 @@ PRODUCT_PACKAGES += \
 
 # Audio
 # Audio HAL Server & Default Implementations
+ifeq ($(RELEASE_PIXEL_AIDL_AUDIO_HAL),true)
+include device/google/gs-common/audio/aidl.mk
+else
 include device/google/gs-common/audio/hidl_zuma.mk
+endif
 
 ## AoC soong
 PRODUCT_SOONG_NAMESPACES += \
@@ -1159,3 +1161,5 @@ SUPPORT_VENDOR_SATELLITE_SERVICE := true
 include hardware/google/pixel/input/twoshay.mk
 
 PRODUCT_CHECK_VENDOR_SEAPP_VIOLATIONS := true
+
+PRODUCT_CHECK_DEV_TYPE_VIOLATIONS := true

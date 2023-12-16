@@ -62,6 +62,8 @@
          on the headphone/microphone jack. When false use the older uevent framework. -->
     <bool name="config_useDevInputEventForAudioJack">true</bool>
 
+    <bool name="config_safe_sound_dosage_enabled">true</bool>
+
     <string translatable="false" name="config_radio_access_family">GSM|CDMA|EVDO|WCDMA|LTE</string>
 
     <!-- Enable doze mode
@@ -215,7 +217,7 @@
 
     <!-- Default color temperature, in Kelvin, to tint the screen when night display is
          activated. -->
-    <integer name="config_nightDisplayColorTemperatureDefault">3339</integer>
+    <integer name="config_nightDisplayColorTemperatureDefault">4000</integer>
 
     <!-- Whether the device enable the standalone (SA) mode of 5G NR.-->
     <bool name="config_telephony5gStandalone">true</bool>
@@ -310,4 +312,14 @@
 
     <!-- Telephony satellite service package name to bind to by default. -->
     <string name="config_satellite_service_package">com.google.android.satellite</string>
+
+    <!-- Telephony pointing UI package name to be launched. -->
+    <string name="config_pointing_ui_package">com.google.android.apps.scone</string>
+
+    <!-- Telephony pointing UI class name to be launched. -->
+    <string name="config_pointing_ui_class">com.google.android.apps.scone.satellite.pointingui.ui.PointingUiActivity</string>
+
+    <!-- Boolean indicating if restoring network selection should be skipped -->
+    <!-- The restoring is handled by modem if it is true -->
+    <bool translatable="false" name="skip_restoring_network_selection">true</bool>
 </resources>
