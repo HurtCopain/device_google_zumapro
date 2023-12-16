@@ -325,8 +325,7 @@ void addCPUclusters(std::shared_ptr<PowerStats> p) {
             std::make_pair("CPU4", "cpu4"),
             std::make_pair("CPU5", "cpu5"),
             std::make_pair("CPU6", "cpu6"),
-            std::make_pair("CPU7", "cpu7"),
-            std::make_pair("CPU8", "cpu8")},
+            std::make_pair("CPU7", "cpu7")},
         .states = {
             std::make_pair("DOWN", "[state1]")}};
 
