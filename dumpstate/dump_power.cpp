@@ -603,6 +603,7 @@ void dumpGvoteables() {
 
 void dumpMitigation() {
     const char *mitigationList [][2] {
+            {"LastmealCSV" , "/data/vendor/mitigation/lastmeal.csv"},
             {"Lastmeal" , "/data/vendor/mitigation/lastmeal.txt"},
             {"Thismeal" , "/data/vendor/mitigation/thismeal.txt"},
     };
