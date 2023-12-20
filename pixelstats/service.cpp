@@ -61,6 +61,8 @@ const struct SysfsCollector::SysfsPaths sysfs_paths = {
     .AmsRatePath = "/sys/devices/platform/audiometrics/ams_rate_read_once",
     .ResumeLatencyMetricsPath = "/sys/kernel/metrics/resume_latency/resume_latency_metrics",
     .LongIRQMetricsPath = "/sys/kernel/metrics/irq/long_irq_metrics",
+    .StormIRQMetricsPath = "/sys/kernel/metrics/irq/storm_irq_metrics",
+    .IRQStatsResetPath = "/sys/kernel/metrics/irq/stats_reset",
     .TempResidencyAndResetPaths = {
         {
             "/sys/kernel/metrics/thermal/tr_by_group/tmu/stats",
