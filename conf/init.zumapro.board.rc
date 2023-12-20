@@ -18,11 +18,7 @@ on init
     write /proc/vendor_sched/teo_util_threshold "2 1024 1024"
 
     # Boot time fs tuning
-    write /sys/block/sda/queue/iostats 0
     write /sys/block/sda/queue/scheduler mq-deadline
-    write /sys/block/sda/queue/nr_requests 256
-    write /dev/sys/fs/by-name/userdata/data_io_flag 56
-    write /dev/sys/fs/by-name/userdata/node_io_flag 56
 
     chown system system /proc/vendor_sched/groups/bg/set_task_group
     chown system system /proc/vendor_sched/groups/cam/set_task_group
@@ -81,15 +77,6 @@ on init
     chmod 0220 /proc/vendor_sched/prefer_idle_clear
     chmod 0660 /proc/vendor_sched/pmu_poll_enable
     chmod 0220 /proc/vendor_sched/pmu_poll_time
-
-    wait /dev/block/platform/${ro.boot.boot_devices}
-    symlink /dev/block/platform/${ro.boot.boot_devices} /dev/block/bootdevice
-
-    # to access UFS/eMMC sysfs directly
-    symlink /sys/devices/platform/${ro.boot.boot_devices} /dev/sys/block/bootdevice
-
-    # Disable UFS powersaving
-    write /dev/sys/block/bootdevice/clkgate_enable 0
 
     start vendor.keymaster-4-0
 
@@ -328,15 +315,6 @@ on early-boot
     # Wait for insmod_sh to finish all common modules
     wait_for_prop vendor.common.modules.ready 1
 
-    # Permission for Health Storage HAL
-    chown system system /dev/sys/block/bootdevice/manual_gc
-
-    # Permission for Pixelstats
-    chown system system /dev/sys/block/bootdevice/slowio_read_cnt
-    chown system system /dev/sys/block/bootdevice/slowio_write_cnt
-    chown system system /dev/sys/block/bootdevice/slowio_unmap_cnt
-    chown system system /dev/sys/block/bootdevice/slowio_sync_cnt
-
     # logbuffer
     chown system system /dev/logbuffer_pcie0
     chown system system /dev/logbuffer_pcie1
@@ -527,23 +505,6 @@ on property:debug.touch_sensitivity_mode=1
     setprop persist.vendor.touch_sensitivity_mode 1
 
 on property:sys.boot_completed=1
-
-    # Runtime fs tuning
-    write /sys/block/sda/queue/nr_requests 128
-    write /sys/block/sda/queue/iostats 1
-    write /dev/sys/fs/by-name/userdata/data_io_flag 8
-    write /dev/sys/fs/by-name/userdata/node_io_flag 8
-
-    # Permission for Pixelstats
-    chown system system /dev/sys/fs/by-name/userdata/compr_written_block
-    chown system system /dev/sys/fs/by-name/userdata/compr_saved_block
-    chown system system /dev/sys/fs/by-name/userdata/compr_new_inode
-    chown system system /dev/sys/fs/by-name/userdata/gc_segment_mode
-    chown system system /dev/sys/fs/by-name/userdata/gc_reclaimed_segments
-    chown system system /dev/sys/fs/by-name/userdata/peak_atomic_write
-    chown system system /dev/sys/fs/by-name/userdata/committed_atomic_block
-    chown system system /dev/sys/fs/by-name/userdata/revoked_atomic_block
-
     # Enable ZRAM on boot_complete
     swapon_all /vendor/etc/fstab.${ro.board.platform}
     write /proc/sys/vm/swappiness 60
@@ -554,9 +515,6 @@ on property:sys.boot_completed=1
     # Back to default VM settings
     write /proc/sys/vm/dirty_expire_centisecs 3000
     write /proc/sys/vm/dirty_background_ratio 10
-
-    # Enable UFS powersaving
-    write /dev/sys/block/bootdevice/clkgate_enable 1
 
     # Cancel boot devfreq
     write /sys/devices/platform/17000010.devfreq_mif/devfreq/17000010.devfreq_mif/exynos_data/cancel_boot_freq 1
@@ -848,10 +806,7 @@ on post-fs-data && property:ro.vendor.factory=1
     chmod 666 /sys/class/backlight/panel0-backlight/local_hbm_mode
     chmod 666 /sys/class/backlight/panel0-backlight/hbm_mode
 
-# UFS
 on property:ro.boot.mode=charger && property:init.svc.vendor.charger=running
-    # Enable UFS powersaving in Off Mode Charger
-    write /dev/sys/block/bootdevice/clkgate_enable 1
     # Disable dock-defend in Off Mode Charger
     write /sys/devices/platform/google,charger/dd_state -1
 
