@@ -396,17 +396,16 @@ PRODUCT_HOST_PACKAGES += \
 PRODUCT_PACKAGES += \
 	messaging
 
-# Contexthub HAL
-PRODUCT_PACKAGES += \
-	android.hardware.contexthub-service.generic
-
-# CHRE tools
+# CHRE
+## tools
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
 PRODUCT_PACKAGES += \
 	chre_power_test_client \
 	chre_test_client
 endif
 
+## hal
+include device/google/gs-common/chre/hal.mk
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.context_hub.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.context_hub.xml
 
