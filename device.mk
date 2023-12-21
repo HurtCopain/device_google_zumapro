@@ -988,6 +988,12 @@ PRODUCT_COPY_FILES += \
 	device/google/zumapro/radio/config/default.cfg:$(TARGET_COPY_OUT_VENDOR)/etc/modem/default.cfg \
 	device/google/zumapro/radio/config/default.nprf:$(TARGET_COPY_OUT_VENDOR)/etc/modem/default.nprf \
 	device/google/zumapro/radio/config/default_metrics.xml:$(TARGET_COPY_OUT_VENDOR)/etc/modem/default_metrics.xml
+# modem extensive logging config
+PRODUCT_PACKAGES += \
+	extensive_logging.conf
+# Vendor modem extensive logging default property
+PRODUCT_PROPERTY_OVERRIDES += \
+	persist.vendor.modem.extensive_logging_enabled=false
 endif
 
 # Vibrator Diag
