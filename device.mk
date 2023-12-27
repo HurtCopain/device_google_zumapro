@@ -611,9 +611,7 @@ PRODUCT_PACKAGES += \
 	android.hardware.health.storage-service.default
 
 # Battery Mitigation
-ifeq ($(RELEASE_PIXEL_AIDL_BATTERY_MITIGATION_HAL), true)
 include device/google/gs-common/battery_mitigation/bcl.mk
-endif
 # storage pixelstats
 -include hardware/google/pixel/pixelstats/device.mk
 
