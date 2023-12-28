@@ -842,7 +842,8 @@ $(warning displaycolor_platform set to zuma on zumapro target)
 $(call soong_config_set,google_displaycolor,displaycolor_platform,zuma)
 PRODUCT_PACKAGES += \
 	android.hardware.composer.hwc3-service.pixel \
-	libdisplaycolor
+	libdisplaycolor \
+	libdisplaypanel
 
 # Storage: for factory reset protection feature
 PRODUCT_PROPERTY_OVERRIDES += \
