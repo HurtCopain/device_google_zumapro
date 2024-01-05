@@ -610,7 +610,7 @@ PRODUCT_PACKAGES += \
 	android.hardware.health.storage-service.default
 
 # Battery Mitigation
-include device/google/gs-common/battery_mitigation/bcl.mk
+include device/google/gs-common/battery_mitigation/bcl-aidl.mk
 # storage pixelstats
 -include hardware/google/pixel/pixelstats/device.mk
 
@@ -1009,7 +1009,7 @@ PRODUCT_PACKAGES += \
 
 # Audio
 # Audio HAL Server & Default Implementations
-ifeq ($(RELEASE_PIXEL_AIDL_AUDIO_HAL),true)
+ifeq ($(USE_AUDIO_HAL_AIDL),true)
 include device/google/gs-common/audio/aidl.mk
 else
 include device/google/gs-common/audio/hidl_zuma.mk
