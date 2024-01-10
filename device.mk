@@ -1124,7 +1124,7 @@ endif
 include hardware/google/pixel/sscoredump/device.mk
 
 # RadioExt Version
-USES_RADIOEXT_V1_6 = true
+USES_RADIOEXT_V1_7 = true
 
 # Wifi ext
 include hardware/google/pixel/wifi_ext/device.mk
