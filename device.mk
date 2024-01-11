@@ -1020,7 +1020,7 @@ endif
 PRODUCT_SOONG_NAMESPACES += \
         vendor/google/whitechapel/aoc
 
-$(call soong_config_set,aoc,target_soc,zuma)
+$(call soong_config_set,aoc,target_soc,zumapro)
 $(call soong_config_set,aoc,target_product,$(TARGET_PRODUCT))
 
 #
