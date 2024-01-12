@@ -494,9 +494,6 @@ on property:vendor.device.modules.ready=1
     chown system system /sys/devices/virtual/goog_touch_interface/gti.0/ss_base
     chown system system /sys/devices/virtual/goog_touch_interface/gti.0/ss_diff
     chown system system /sys/devices/virtual/goog_touch_interface/gti.0/ss_raw
-    # Allow access to touch
-    chown system input /dev/touch_offload
-    chmod 660 /dev/touch_offload
 
 # Route touch_sensitivity_mode to persist
 on property:debug.touch_sensitivity_mode=0
