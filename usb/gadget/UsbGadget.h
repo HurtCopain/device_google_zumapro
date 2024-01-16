@@ -115,6 +115,8 @@ struct UsbGadget : public BnUsbGadget {
 
     ScopedAStatus setVidPid(const char *vid,const char *pid);
 
+    std::string mI2cClientPath;
+
   private:
     Status tearDownGadget();
     Status getUsbGadgetIrqPath();
