@@ -322,4 +322,15 @@
     <!-- Boolean indicating if restoring network selection should be skipped -->
     <!-- The restoring is handled by modem if it is true -->
     <bool translatable="false" name="skip_restoring_network_selection">true</bool>
+
+    <!-- The identifier of the satellite's SIM profile. The identifier is composed of MCC and MNC
+         of the satellite PLMN with the format "mccmnc". -->
+    <string name="config_satellite_sim_plmn_identifier">90198</string>
+
+    <!-- The identifier for the satellite's SIM profile. The identifier is the service provider name
+         (spn) from the profile metadata. -->
+    <string name="config_satellite_sim_spn_identifier">Skylo</string>
+
+    <!-- Telephony satellite gateway service package name to bind to by default. -->
+    <string name="config_satellite_gateway_service_package">com.google.android.apps.stargate</string>
 </resources>
