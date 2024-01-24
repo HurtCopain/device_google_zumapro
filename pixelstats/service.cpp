@@ -76,7 +76,18 @@ const struct SysfsCollector::SysfsPaths sysfs_paths = {
     },
     .ModemPcieLinkStatsPath = "/sys/devices/platform/12100000.pcie/link_stats",
     .WifiPcieLinkStatsPath = "/sys/devices/platform/13120000.pcie/link_stats",
-    .GMSRPath = "/sys/class/power_supply/max77779fg/gmsr"
+    .GMSRPath = "/sys/class/power_supply/max77779fg/gmsr",
+    .PDMStatePath = "/sys/devices/platform/audiometrics/pdm_state",
+    .WavesPath = "/sys/devices/platform/audiometrics/waves",
+    .AdaptedInfoCountPath = "/sys/devices/platform/audiometrics/adapted_info_active_count",
+    .AdaptedInfoDurationPath = "/sys/devices/platform/audiometrics/adapted_info_active_duration",
+    .CCARatePath = "/sys/devices/platform/audiometrics/cca_count_read_once",
+    .PcmLatencyPath = "/sys/devices/platform/audiometrics/pcm_latency",
+    .PcmCountPath = "/sys/devices/platform/audiometrics/pcm_count",
+    .TotalCallCountPath = "/sys/devices/platform/audiometrics/call_count",
+    .OffloadEffectsIdPath = "/sys/devices/platform/audiometrics/offload_effects_id",
+    .OffloadEffectsDurationPath = "/sys/devices/platform/audiometrics/offload_effects_duration",
+    .BluetoothAudioUsagePath = "/sys/devices/platform/audiometrics/bt_usage"
 };
 
 const struct UeventListener::UeventPaths ueventPaths = {
