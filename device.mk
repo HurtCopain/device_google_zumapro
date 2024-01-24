@@ -983,6 +983,9 @@ endif
 # modem logging binary/configs
 PRODUCT_PACKAGES += modem_logging_control
 
+# libeomservice_proxy binary/configs
+PRODUCT_PACKAGES += liboemservice_proxy_default
+
 # modem logging configs
 PRODUCT_COPY_FILES += \
 	device/google/zumapro/radio/config/logging.conf:$(TARGET_COPY_OUT_VENDOR)/etc/modem/logging.conf \
