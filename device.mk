@@ -406,6 +406,12 @@ PRODUCT_PACKAGES += \
 	chre_aidl_hal_client
 endif
 
+# PCIe
+ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
+PRODUCT_PACKAGES += \
+	factory_pcie
+endif
+
 ## hal
 include device/google/gs-common/chre/hal.mk
 PRODUCT_COPY_FILES += \
