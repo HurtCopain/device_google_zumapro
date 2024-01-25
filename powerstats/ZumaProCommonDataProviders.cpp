@@ -647,13 +647,13 @@ void addPixelStateResidencyDataProvider(std::shared_ptr<PowerStats> p) {
     p->addStateResidencyDataProvider(std::move(pixelSdp));
 }
 
-void addDisplayMrrByPath(std::shared_ptr<PowerStats> p, std::string path) {
+void addDisplayMrrByEntity(std::shared_ptr<PowerStats> p, std::string name, std::string path) {
     p->addStateResidencyDataProvider(std::make_unique<DisplayMrrStateResidencyDataProvider>(
-            "Display", path));
+            name, path));
 }
 
 void addDisplayMrr(std::shared_ptr<PowerStats> p) {
-    addDisplayMrrByPath(p, "/sys/class/drm/card0/device/primary-panel/");
+    addDisplayMrrByEntity(p, "Display", "/sys/class/drm/card0/device/primary-panel/");
 }
 
 void addZumaProCommonDataProviders(std::shared_ptr<PowerStats> p) {
