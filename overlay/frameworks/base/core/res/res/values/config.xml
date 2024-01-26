@@ -425,4 +425,14 @@
 
     <!-- Telephony satellite gateway service package name to bind to by default. -->
     <string name="config_satellite_gateway_service_package">com.google.android.apps.stargate</string>
+
+    <!-- List of country codes where oem-enabled satellite services are either allowed or disallowed
+         by the device. Each country code is a lowercase 2 character ISO-3166-1 alpha-2. -->
+    <string-array name="config_oem_enabled_satellite_country_codes">
+          <item>US</item>
+    </string-array>
+
+    <!-- The file storing S2-cell-based satellite access restriction of the countries defined by
+         config_oem_enabled_satellite_countries. -->
+    <string name="config_oem_enabled_satellite_s2cell_file">/vendor/etc/telephony/sats2.dat</string>
 </resources>
