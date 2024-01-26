@@ -1181,3 +1181,8 @@ include hardware/google/pixel/input/twoshay.mk
 PRODUCT_CHECK_VENDOR_SEAPP_VIOLATIONS := true
 
 PRODUCT_CHECK_DEV_TYPE_VIOLATIONS := true
+
+# Enable Android Messages satellite conversation feature.
+# TODO(b/322518837): Remove the property override once the flag is launched.
+PRODUCT_PROPERTY_OVERRIDES += \
+    debug.bugle.enable_emergency_satellite_messaging=true
