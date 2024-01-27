@@ -406,6 +406,12 @@ PRODUCT_PACKAGES += \
 	chre_aidl_hal_client
 endif
 
+# PCIe
+ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
+PRODUCT_PACKAGES += \
+	factory_pcie
+endif
+
 ## hal
 include device/google/gs-common/chre/hal.mk
 PRODUCT_COPY_FILES += \
@@ -1164,6 +1170,10 @@ endif
 endif
 
 SUPPORT_VENDOR_SATELLITE_SERVICE := true
+
+# Telephony satellite geofence data file
+PRODUCT_COPY_FILES += \
+        device/google/zumapro/telephony/sats2.dat:$(TARGET_COPY_OUT_VENDOR)/etc/telephony/sats2.dat
 
 # Touch service
 include hardware/google/pixel/input/twoshay.mk
