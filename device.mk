@@ -210,7 +210,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.vendor.usb.displayport.enabled=1
 else
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.vendor.usb.displayport.enabled=0
+	persist.vendor.usb.displayport.enabled=1
 endif
 
 USE_LASSEN_OEMHOOK := true
