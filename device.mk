@@ -210,7 +210,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.vendor.usb.displayport.enabled=1
 else
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.vendor.usb.displayport.enabled=0
+	persist.vendor.usb.displayport.enabled=1
 endif
 
 USE_LASSEN_OEMHOOK := true
@@ -729,10 +729,8 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.display_update_imminent
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += vendor.display.0.brightness.dimming.usage?=2
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += vendor.display.1.brightness.dimming.usage?=2
 
-# force to blend in P3 mode
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.sys.sf.native_mode=2 \
-	persist.sys.sf.color_mode=9
+	persist.sys.sf.native_mode=2
 PRODUCT_COPY_FILES += \
 	device/google/zumapro/display/display_colordata_cal0.pb:$(TARGET_COPY_OUT_VENDOR)/etc/display_colordata_cal0.pb
 
