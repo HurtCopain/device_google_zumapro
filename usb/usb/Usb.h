@@ -129,6 +129,8 @@ struct Usb : public BnUsb {
     float mPluggedTemperatureCelsius;
     // Usb Data status
     bool mUsbDataEnabled;
+    std::string mI2cClientPath;
+
     // True when mDisplayPortPoll pthread is running
     volatile bool mDisplayPortPollRunning;
     volatile bool mDisplayPortPollStarting;
