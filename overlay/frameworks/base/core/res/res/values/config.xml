@@ -435,4 +435,10 @@
     <!-- The file storing S2-cell-based satellite access restriction of the countries defined by
          config_oem_enabled_satellite_countries. -->
     <string name="config_oem_enabled_satellite_s2cell_file">/vendor/etc/telephony/sats2.dat</string>
+
+    <!-- The time duration in millis after which cellular scanning will be enabled and satellite
+         will move to IDLE state. This timeout duration is used for satellite with NB IOT radio
+         technologies.
+         -->
+    <integer name="config_satellite_nb_iot_inactivity_timeout_millis">600000</integer>
 </resources>
