@@ -1192,6 +1192,7 @@ PRODUCT_COPY_FILES += \
 
 # Touch service
 include hardware/google/pixel/input/twoshay.mk
+include device/google/gs-common/touch/twoshay/aidl_zuma.mk
 
 PRODUCT_CHECK_VENDOR_SEAPP_VIOLATIONS := true
 
