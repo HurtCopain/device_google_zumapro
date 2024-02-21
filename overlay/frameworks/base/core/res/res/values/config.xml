@@ -438,5 +438,13 @@
          will move to IDLE state. This timeout duration is used for satellite with NB IOT radio
          technologies.
          -->
-    <integer name="config_satellite_nb_iot_inactivity_timeout_millis">600000</integer>
+    <integer name="config_satellite_nb_iot_inactivity_timeout_millis">900000</integer>
+
+    <!-- The time duration in millis after which Telephony will abort the datagram sending requests.
+         Telephony starts a timer when receiving a datagram sending request in either OFF, IDLE, or
+         NOT_CONNECTED state. In NOT_CONNECTED, the duration of the timer is given by this config.
+         In OFF or IDLE state, the duration of the timer is the sum of this config and the
+         config_satellite_modem_image_switching_duration_millis.
+         -->
+    <integer name="config_datagram_wait_for_connected_state_timeout_millis">900000</integer>
 </resources>
