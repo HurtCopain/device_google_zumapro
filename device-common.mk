@@ -44,6 +44,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.thermal_warmreset = true
 
+# Generic zram size setting, can be overridden in project-specific device.mk
+PRODUCT_VENDOR_PROPERTIES += \
+	vendor.zram.size?=50p
+
 # Indicate that the bootloader supports the MTE developer option switch
 # (MISC_MEMTAG_MODE_MEMTAG_ONCE), with the exception of _fullmte products that
 # force enable MTE.
