@@ -427,9 +427,12 @@ void addGNSS(std::shared_ptr<PowerStats> p)
         .lastEntryTransform = gnssUsToMs,
     };
 
+    // External GNSS power stats are controlled by GPS chip side. The power stats
+    // would not update while GPS chip is down. This means that GPS OFF state
+    // residency won't reflect the elapsed off time. So only GPS ON state
+    // residency is present.
     const std::vector<std::pair<std::string, std::string>> gnssStateHeaders = {
         std::make_pair("ON", "GPS_ON:"),
-        std::make_pair("OFF", "GPS_OFF:"),
     };
 
     std::vector<GenericStateResidencyDataProvider::PowerEntityConfig> cfgs;
@@ -437,10 +440,7 @@ void addGNSS(std::shared_ptr<PowerStats> p)
             "GPS", "");
 
     p->addStateResidencyDataProvider(std::make_unique<GenericStateResidencyDataProvider>(
-            "/dev/bbd_pwrstat", cfgs));
-
-    p->addEnergyConsumer(PowerStatsEnergyConsumer::createMeterConsumer(p,
-            EnergyConsumerType::GNSS, "GPS", {"L9S_GNSS_CORE"}));
+            "/data/vendor/gps/power_stats", cfgs));
 }
 
 void addPCIe(std::shared_ptr<PowerStats> p) {
