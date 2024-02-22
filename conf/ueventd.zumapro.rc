@@ -97,6 +97,7 @@
 /dev/acd-mel_processor          0660   system     audio
 /dev/amcs                       0660   system     audio
 /dev/acd-audio_rtp_*            0660   system     radio
+/dev/acd-mc_headpos             0660   system     audio
 
 # Secure MEM driver
 /dev/s5p-smem             0660   drm        drmrpc
