@@ -27,7 +27,7 @@ PRODUCT_COPY_FILES += \
 
 # Set system properties identifying the chipset
 PRODUCT_VENDOR_PROPERTIES += ro.soc.manufacturer=Google
-PRODUCT_VENDOR_PROPERTIES += ro.soc.model=ZUMAPRO
+TARGET_VENDOR_PROP += device/google/zumapro/vendor.prop
 
 PRODUCT_PRODUCT_PROPERTIES += \
     persist.vendor.testing_battery_profile=2
