@@ -199,6 +199,9 @@ on late-fs
 on post-fs-data
     # Modem temperature driver
     chown radio system /sys/devices/platform/cp-tm1/cp_temp
+    chown radio system /sys/devices/platform/cpif/dynamic_pcie_spd/tp_threshold
+    chown radio system /sys/devices/platform/cpif/dynamic_pcie_spd/tp_hysteresis
+    chown radio system /sys/devices/platform/cpif/dynamic_pcie_spd/dynamic_spd_enable
 
     # Log data folder
     mkdir /data/vendor 0771 radio system
