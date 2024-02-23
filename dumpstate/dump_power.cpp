@@ -164,7 +164,7 @@ void dumpPowerSupplyStats() {
             {"Power supply property gcpm_pps", "/sys/class/power_supply/gcpm_pps/uevent"},
             {"Power supply property main-charger", "/sys/class/power_supply/main-charger/uevent"},
             {"Power supply property dc-mains", "/sys/class/power_supply/dc-mains/uevent"},
-            {"Power supply property tcpm", "/sys/class/power_supply/tcpm-source-psy-8-0025/uevent"},
+            {"Power supply property tcpm", "/sys/class/power_supply/tcpm-source-psy-i2c-max77759tcpc/uevent"},
             {"Power supply property usb", "/sys/class/power_supply/usb/uevent"},
             {"Power supply property wireless", "/sys/class/power_supply/wireless/uevent"},
     };
