@@ -1065,7 +1065,8 @@ PRODUCT_PACKAGES += \
 	aoc_tuning_inft \
 	mahal_test \
 	ma_aoc_tuning_test \
-	crus_sp_cal
+	crus_sp_cal \
+	pixel_ti_cal
 endif
 
 PRODUCT_PACKAGES += \
