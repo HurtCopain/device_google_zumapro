@@ -311,6 +311,9 @@
     <!-- Pre-scale volume at volume step 3 for Absolute Volume -->
     <fraction name="config_prescaleAbsoluteVolume_index3">100%</fraction>
 
+    <!-- Telephony satellite service package name to bind to by default. -->
+    <string name="config_satellite_service_package">com.google.android.satellite</string>
+
     <!-- Telephony pointing UI package name to be launched. -->
     <string name="config_pointing_ui_package">com.google.android.apps.scone</string>
 
