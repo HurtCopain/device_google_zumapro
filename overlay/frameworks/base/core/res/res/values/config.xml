@@ -413,7 +413,7 @@
           <item>1897.082235</item>   <!-- 71000 - 81000 -->
           <item>1958.157391</item>   <!-- 81000 - 91000 -->
           <item>1992.433376</item>   <!-- 91000 - 100000 -->
-          <item>2000</item>          <!-- 100000+  -->
+          <item>2050</item>          <!-- 100000+  -->
      </array>
 
     <!-- The identifier of the satellite's SIM profile. The identifier is composed of MCC and MNC
