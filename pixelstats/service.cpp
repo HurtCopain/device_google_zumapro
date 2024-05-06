@@ -62,6 +62,8 @@ const struct SysfsCollector::SysfsPaths sysfs_paths = {
     .AmsRatePath = "/sys/devices/platform/audiometrics/ams_rate_read_once",
     .ResumeLatencyMetricsPath = "/sys/kernel/metrics/resume_latency/resume_latency_metrics",
     .LongIRQMetricsPath = "/sys/kernel/metrics/irq/long_irq_metrics",
+    .StormIRQMetricsPath = "/sys/kernel/metrics/irq/storm_irq_metrics",
+    .IRQStatsResetPath = "/sys/kernel/metrics/irq/stats_reset",
     .TempResidencyAndResetPaths = {
         {
             "/sys/kernel/metrics/thermal/tr_by_group/tmu/stats",
@@ -74,12 +76,36 @@ const struct SysfsCollector::SysfsPaths sysfs_paths = {
     },
     .ModemPcieLinkStatsPath = "/sys/devices/platform/12100000.pcie/link_stats",
     .WifiPcieLinkStatsPath = "/sys/devices/platform/13120000.pcie/link_stats",
-    .GMSRPath = "/sys/class/power_supply/max77779fg/gmsr"
+    .GMSRPath = {
+        "/sys/class/power_supply/max77779fg/gmsr",
+        "/sys/class/power_supply/maxfg_base/gmsr",
+    },
+    .PDMStatePath = "/sys/devices/platform/audiometrics/pdm_state",
+    .WavesPath = "/sys/devices/platform/audiometrics/waves",
+    .AdaptedInfoCountPath = "/sys/devices/platform/audiometrics/adapted_info_active_count",
+    .AdaptedInfoDurationPath = "/sys/devices/platform/audiometrics/adapted_info_active_duration",
+    .CCARatePath = "/sys/devices/platform/audiometrics/cca_count_read_once",
+    .PcmLatencyPath = "/sys/devices/platform/audiometrics/pcm_latency",
+    .PcmCountPath = "/sys/devices/platform/audiometrics/pcm_count",
+    .TotalCallCountPath = "/sys/devices/platform/audiometrics/call_count",
+    .OffloadEffectsIdPath = "/sys/devices/platform/audiometrics/offload_effects_id",
+    .OffloadEffectsDurationPath = "/sys/devices/platform/audiometrics/offload_effects_duration",
+    .BluetoothAudioUsagePath = "/sys/devices/platform/audiometrics/bt_usage"
 };
 
 const struct UeventListener::UeventPaths ueventPaths = {
         .AudioUevent = "/devices/virtual/amcs/amcs",
-        .TypeCPartnerUevent = "PRODUCT_TYPE="};
+        .TypeCPartnerUevent = "PRODUCT_TYPE=",
+        .FGLearningPath = {
+            "/sys/class/power_supply/max77779fg/fg_learning_events",
+            "/sys/class/power_supply/maxfg_base/fg_learning_events"
+        },
+        .FwUpdatePath = "/sys/devices/platform/maxim,max77779fwu/update_stats",
+        .FGModelLoadingPath = {
+            "/sys/class/power_supply/max77779fg/model_state",
+            "/sys/class/power_supply/maxfg_base/model_state"
+        }
+ };
 
 int main() {
     LOG(INFO) << "starting PixelStats";

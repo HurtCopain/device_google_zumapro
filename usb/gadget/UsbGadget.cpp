@@ -17,7 +17,6 @@
 #define LOG_TAG "android.hardware.usb.gadget.aidl-service"
 
 #include "UsbGadget.h"
-#include <dirent.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/inotify.h>
@@ -26,21 +25,33 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include<android-base/properties.h>
+
 #include <aidl/android/frameworks/stats/IStats.h>
+#include <pixelusb/I2cHelper.h>
 
 namespace aidl {
 namespace android {
 namespace hardware {
 namespace usb {
 namespace gadget {
+#define NUM_HSI2C_PATHS 2
+
+using ::android::hardware::google::pixel::usb::getI2cClientPath;
+
+using ::android::base::GetBoolProperty;
+using ::android::hardware::google::pixel::usb::kUvcEnabled;
 
 string enabledPath;
-constexpr char kHsi2cPath[] = "/sys/devices/platform/108d0000.hsi2c";
-constexpr char kI2CPath[] = "/sys/devices/platform/108d0000.hsi2c/i2c-";
-constexpr char kAccessoryLimitCurrent[] = "-0025/usb_limit_accessory_current";
-constexpr char kAccessoryLimitCurrentEnable[] = "-0025/usb_limit_accessory_enable";
+constexpr char* kHsi2cPaths[] = { (char *) "/sys/devices/platform/108d0000.hsi2c",
+                                  (char *) "/sys/devices/platform/10cb0000.hsi2c" };
+constexpr char kTcpcDevName[] = "i2c-max77759tcpc";
+constexpr char kI2cClientId[] = "0025";
+constexpr char kAccessoryLimitCurrent[] = "usb_limit_accessory_current";
+constexpr char kAccessoryLimitCurrentEnable[] = "usb_limit_accessory_enable";
 
-UsbGadget::UsbGadget() : mGadgetIrqPath("") {
+UsbGadget::UsbGadget() : mGadgetIrqPath(""),
+    mI2cClientPath("") {
     if (access(OS_DESC_PATH, R_OK) != 0) {
         ALOGE("configfs setup not done yet");
         abort();
@@ -302,6 +313,28 @@ static Status validateAndSetVidPid(uint64_t functions) {
                 ret = Status(setVidPid("0x18d1", "0x4eec"));
             }
             break;
+        case GadgetFunction::UVC:
+            if (!(vendorFunctions == "user" || vendorFunctions == "")) {
+                ALOGE("Invalid vendorFunctions set: %s", vendorFunctions.c_str());
+                ret = Status::CONFIGURATION_NOT_SUPPORTED;
+            } else if (!GetBoolProperty(kUvcEnabled, false)) {
+                ALOGE("UVC function not enabled by config");
+                ret = Status::CONFIGURATION_NOT_SUPPORTED;
+            } else {
+                ret = Status(setVidPid("0x18d1", "0x4eed"));
+            }
+            break;
+        case GadgetFunction::ADB | GadgetFunction::UVC:
+            if (!(vendorFunctions == "user" || vendorFunctions == "")) {
+                ALOGE("Invalid vendorFunctions set: %s", vendorFunctions.c_str());
+                ret = Status::CONFIGURATION_NOT_SUPPORTED;
+            } else if (!GetBoolProperty(kUvcEnabled, false)) {
+                ALOGE("UVC function not enabled by config");
+                ret = Status::CONFIGURATION_NOT_SUPPORTED;
+            } else {
+                ret = Status(setVidPid("0x18d1", "0x4eee"));
+            }
+            break;
         default:
             ALOGE("Combination not supported");
             ret = Status::CONFIGURATION_NOT_SUPPORTED;
@@ -418,29 +451,6 @@ Status UsbGadget::setupFunctions(long functions,
     return Status::SUCCESS;
 }
 
-Status getI2cBusHelper(string *name) {
-    DIR *dp;
-
-    dp = opendir(kHsi2cPath);
-    if (dp != NULL) {
-        struct dirent *ep;
-
-        while ((ep = readdir(dp))) {
-            if (ep->d_type == DT_DIR) {
-                if (string::npos != string(ep->d_name).find("i2c-")) {
-                    std::strtok(ep->d_name, "-");
-                    *name = std::strtok(NULL, "-");
-                }
-            }
-        }
-        closedir(dp);
-        return Status::SUCCESS;
-    }
-
-    ALOGE("Failed to open %s", kHsi2cPath);
-    return Status::ERROR;
-}
-
 ScopedAStatus UsbGadget::setCurrentUsbFunctions(long functions,
                                                const shared_ptr<IUsbGadgetCallback> &callback,
                                                int64_t timeout,
@@ -448,15 +458,23 @@ ScopedAStatus UsbGadget::setCurrentUsbFunctions(long functions,
     std::unique_lock<std::mutex> lk(mLockSetCurrentFunction);
     std::string current_usb_power_operation_mode, current_usb_type;
     std::string usb_limit_sink_enable;
-
-    string accessoryCurrentLimitEnablePath, accessoryCurrentLimitPath, path;
+    std::string accessoryCurrentLimitEnablePath, accessoryCurrentLimitPath;
 
     mCurrentUsbFunctions = functions;
     mCurrentUsbFunctionsApplied = false;
 
-    getI2cBusHelper(&path);
-    accessoryCurrentLimitPath = kI2CPath + path + "/" + path + kAccessoryLimitCurrent;
-    accessoryCurrentLimitEnablePath = kI2CPath + path + "/" + path + kAccessoryLimitCurrentEnable;
+    if (mI2cClientPath.empty()) {
+        for (int i = 0; i < NUM_HSI2C_PATHS; i++) {
+            mI2cClientPath = getI2cClientPath(kHsi2cPaths[i], kTcpcDevName, kI2cClientId);
+            if (mI2cClientPath.empty()) {
+                ALOGE("%s: Unable to locate i2c bus node", __func__);
+            } else {
+                break;
+            }
+        }
+    }
+    accessoryCurrentLimitPath = mI2cClientPath + kAccessoryLimitCurrent;
+    accessoryCurrentLimitEnablePath = mI2cClientPath + kAccessoryLimitCurrentEnable;
 
     // Get the gadget IRQ number before tearDownGadget()
     if (mGadgetIrqPath.empty())

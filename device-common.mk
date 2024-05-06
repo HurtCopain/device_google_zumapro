@@ -27,7 +27,7 @@ PRODUCT_COPY_FILES += \
 
 # Set system properties identifying the chipset
 PRODUCT_VENDOR_PROPERTIES += ro.soc.manufacturer=Google
-PRODUCT_VENDOR_PROPERTIES += ro.soc.model=ZUMAPRO
+TARGET_VENDOR_PROP += device/google/zumapro/vendor.prop
 
 PRODUCT_PRODUCT_PROPERTIES += \
     persist.vendor.testing_battery_profile=2
@@ -43,6 +43,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # Set thermal warm reset
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.thermal_warmreset = true
+
+# Generic zram size setting, can be overridden in project-specific device.mk
+PRODUCT_VENDOR_PROPERTIES += \
+	vendor.zram.size?=50p
 
 # Indicate that the bootloader supports the MTE developer option switch
 # (MISC_MEMTAG_MODE_MEMTAG_ONCE), with the exception of _fullmte products that

@@ -121,20 +121,6 @@
         </interface>
     </hal>
     <hal format="aidl" optional="true">
-        <name>com.google.input.algos.spd</name>
-        <interface>
-            <name>IScreenProtectorDetectorService</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="aidl" optional="true">
-        <name>com.google.input</name>
-        <interface>
-            <name>ITouchContextService</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="aidl" optional="true">
         <name>hardware.qorvo.uwb</name>
         <interface>
             <name>IUwbVendor</name>
@@ -159,7 +145,7 @@
     </hal>
     <hal format="hidl" optional="true">
         <name>vendor.google.radioext</name>
-        <version>1.6</version>
+        <version>1.7</version>
         <interface>
             <name>IRadioExt</name>
             <instance>default</instance>
@@ -185,6 +171,7 @@
     </hal>
     <hal format="aidl" optional="true">
         <name>com.google.pixel.modem.logmasklibrary</name>
+        <version>1</version>
         <interface>
             <name>ILiboemserviceProxy</name>
             <instance>default</instance>

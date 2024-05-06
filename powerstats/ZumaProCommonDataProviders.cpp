@@ -19,6 +19,7 @@
 #include <AocStateResidencyDataProvider.h>
 #include <CpupmStateResidencyDataProvider.h>
 #include <DevfreqStateResidencyDataProvider.h>
+#include <DisplayMrrStateResidencyDataProvider.h>
 #include <AdaptiveDvfsStateResidencyDataProvider.h>
 #include <TpuDvfsStateResidencyDataProvider.h>
 #include <UfsStateResidencyDataProvider.h>
@@ -39,6 +40,7 @@ using aidl::android::hardware::power::stats::AdaptiveDvfsStateResidencyDataProvi
 using aidl::android::hardware::power::stats::AocStateResidencyDataProvider;
 using aidl::android::hardware::power::stats::CpupmStateResidencyDataProvider;
 using aidl::android::hardware::power::stats::DevfreqStateResidencyDataProvider;
+using aidl::android::hardware::power::stats::DisplayMrrStateResidencyDataProvider;
 using aidl::android::hardware::power::stats::DvfsStateResidencyDataProvider;
 using aidl::android::hardware::power::stats::UfsStateResidencyDataProvider;
 using aidl::android::hardware::power::stats::EnergyConsumerType;
@@ -325,8 +327,7 @@ void addCPUclusters(std::shared_ptr<PowerStats> p) {
             std::make_pair("CPU4", "cpu4"),
             std::make_pair("CPU5", "cpu5"),
             std::make_pair("CPU6", "cpu6"),
-            std::make_pair("CPU7", "cpu7"),
-            std::make_pair("CPU8", "cpu8")},
+            std::make_pair("CPU7", "cpu7")},
         .states = {
             std::make_pair("DOWN", "[state1]")}};
 
@@ -426,9 +427,12 @@ void addGNSS(std::shared_ptr<PowerStats> p)
         .lastEntryTransform = gnssUsToMs,
     };
 
+    // External GNSS power stats are controlled by GPS chip side. The power stats
+    // would not update while GPS chip is down. This means that GPS OFF state
+    // residency won't reflect the elapsed off time. So only GPS ON state
+    // residency is present.
     const std::vector<std::pair<std::string, std::string>> gnssStateHeaders = {
         std::make_pair("ON", "GPS_ON:"),
-        std::make_pair("OFF", "GPS_OFF:"),
     };
 
     std::vector<GenericStateResidencyDataProvider::PowerEntityConfig> cfgs;
@@ -436,10 +440,7 @@ void addGNSS(std::shared_ptr<PowerStats> p)
             "GPS", "");
 
     p->addStateResidencyDataProvider(std::make_unique<GenericStateResidencyDataProvider>(
-            "/dev/bbd_pwrstat", cfgs));
-
-    p->addEnergyConsumer(PowerStatsEnergyConsumer::createMeterConsumer(p,
-            EnergyConsumerType::GNSS, "GPS", {"L9S_GNSS_CORE"}));
+            "/data/vendor/gps/power_stats", cfgs));
 }
 
 void addPCIe(std::shared_ptr<PowerStats> p) {
@@ -644,6 +645,15 @@ void addPixelStateResidencyDataProvider(std::shared_ptr<PowerStats> p) {
     pixelSdp->start();
 
     p->addStateResidencyDataProvider(std::move(pixelSdp));
+}
+
+void addDisplayMrrByEntity(std::shared_ptr<PowerStats> p, std::string name, std::string path) {
+    p->addStateResidencyDataProvider(std::make_unique<DisplayMrrStateResidencyDataProvider>(
+            name, path));
+}
+
+void addDisplayMrr(std::shared_ptr<PowerStats> p) {
+    addDisplayMrrByEntity(p, "Display", "/sys/class/drm/card0/device/primary-panel/");
 }
 
 void addZumaProCommonDataProviders(std::shared_ptr<PowerStats> p) {

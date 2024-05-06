@@ -41,6 +41,9 @@ BOARD_KERNEL_CMDLINE += rcupdate.rcu_expedited=1 rcu_nocbs=all
 BOARD_KERNEL_CMDLINE += swiotlb=noforce
 BOARD_KERNEL_CMDLINE += disable_dma32=on
 BOARD_KERNEL_CMDLINE += sysctl.kernel.sched_pelt_multiplier=4
+ifeq (,$(filter %_fullmte,$(TARGET_PRODUCT)))
+BOARD_KERNEL_CMDLINE += kasan=off
+endif
 BOARD_BOOTCONFIG += androidboot.boot_devices=13200000.ufs
 
 # Enable KUnit for userdebug and eng builds
@@ -122,7 +125,6 @@ BOARD_USES_SWIFTSHADER ?= false
 ifeq ($(BOARD_USES_EXYNOS_GRALLOC_VERSION),4)
 ifeq ($(BOARD_USES_SWIFTSHADER),true)
 $(warning BOARD_USES_SWIFTSHADER set to current target)
-BOARD_VENDOR_SEPOLICY_DIRS += device/google/cuttlefish/shared/angle/sepolicy
 TARGET_DISABLE_TRIPLE_BUFFERING := true
 $(call soong_config_set,arm_gralloc,gralloc_arm_no_external_afbc,true)
 $(call soong_config_set,arm_gralloc,mali_gpu_support_afbc_basic,false)
@@ -209,7 +211,7 @@ BOARD_SUPPORT_MFC_ENC_RGB := true
 BOARD_USE_BLOB_ALLOCATOR := false
 BOARD_SUPPORT_MFC_ENC_BT2020 := true
 BOARD_SUPPORT_FLEXIBLE_P010 := true
-
+BOARD_SUPPORT_MFC_VERSION := 1660
 ########################
 
 BOARD_SUPER_PARTITION_SIZE := 8531214336

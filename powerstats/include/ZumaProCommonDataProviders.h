@@ -23,6 +23,8 @@ using aidl::android::hardware::power::stats::PowerStats;
 void addAoC(std::shared_ptr<PowerStats> p);
 void addCPUclusters(std::shared_ptr<PowerStats> p);
 void addDevfreq(std::shared_ptr<PowerStats> p);
+void addDisplayMrr(std::shared_ptr<PowerStats> p);
+void addDisplayMrrByEntity(std::shared_ptr<PowerStats> p, std::string name, std::string path);
 void addDvfsStats(std::shared_ptr<PowerStats> p);
 void addGNSS(std::shared_ptr<PowerStats> p);
 void addGPU(std::shared_ptr<PowerStats> p);

@@ -31,6 +31,7 @@ include device/google/gs-common/soc/freq.mk
 include device/google/gs-common/gps/dump/log.mk
 include device/google/gs-common/bcmbt/dump/dumplog.mk
 include device/google/gs-common/display/dump.mk
+include device/google/gs-common/display_logbuffer/dump.mk
 include device/google/gs-common/gxp/gxp.mk
 include device/google/gs-common/camera/dump.mk
 include device/google/gs-common/radio/dump.mk
@@ -40,6 +41,7 @@ include device/google/gs-common/sota_app/factoryota.mk
 include device/google/gs-common/misc_writer/misc_writer.mk
 include device/google/gs-common/gyotaku_app/gyotaku.mk
 include device/google/gs-common/bootctrl/bootctrl_aidl.mk
+include device/google/gs-common/betterbug/betterbug.mk
 
 include device/google/zumapro/dumpstate/item.mk
 
@@ -76,7 +78,7 @@ PRODUCT_SOONG_NAMESPACES += \
 	hardware/google/pixel \
 	device/google/zumapro \
 	device/google/zumapro/powerstats \
-	system/chre/host/hal_generic \
+	vendor/google_devices/common/chre/host/hal \
 	vendor/google/whitechapel/tools \
 	vendor/google/interfaces \
 	vendor/google_devices/common/proprietary/confirmatioui_hal \
@@ -199,7 +201,7 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 # Carrier configuration default location
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.vendor.radio.config.carrier_config_dir=/mnt/vendor/modem_img/images/default/confpack
+	persist.vendor.radio.config.carrier_config_dir=/vendor/firmware/carrierconfig
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	telephony.active_modems.max_count=2
@@ -209,7 +211,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.vendor.usb.displayport.enabled=1
 else
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.vendor.usb.displayport.enabled=0
+	persist.vendor.usb.displayport.enabled=1
 endif
 
 USE_LASSEN_OEMHOOK := true
@@ -268,14 +270,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_VENDOR_PROPERTIES += \
 	ro.hardware.egl=angle \
 	ro.hardware.vulkan=pastel
-PRODUCT_VENDOR_PROPERTIES += \
-	debug.renderengine.backend=skiaglthreaded
 else
 PRODUCT_VENDOR_PROPERTIES += \
 	ro.hardware.egl=mali \
 	ro.hardware.vulkan=mali
-PRODUCT_VENDOR_PROPERTIES += \
-	debug.renderengine.backend=skiaglthreaded
 endif
 
 # b/295257834 Add HDR shaders to SurfaceFlinger's pre-warming cache
@@ -383,6 +381,10 @@ PRODUCT_COPY_FILES += \
 	device/google/$(TARGET_BOARD_PLATFORM)/conf/fstab.persist:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.persist \
 	device/google/$(TARGET_BOARD_PLATFORM)/conf/fstab.modem:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.modem
 
+# Shell scripts
+PRODUCT_PACKAGES += \
+	disable_contaminant_detection.sh
+
 include device/google/gs-common/insmod/insmod.mk
 
 # Insmod config files
@@ -396,24 +398,29 @@ PRODUCT_HOST_PACKAGES += \
 PRODUCT_PACKAGES += \
 	messaging
 
-# Contexthub HAL
-PRODUCT_PACKAGES += \
-	android.hardware.contexthub-service.generic
-
-# CHRE tools
+# CHRE
+## tools
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
 PRODUCT_PACKAGES += \
 	chre_power_test_client \
-	chre_test_client
+	chre_test_client \
+	chre_aidl_hal_client
 endif
 
+# PCIe
+ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
+PRODUCT_PACKAGES += \
+	factory_pcie
+endif
+
+## hal
+include device/google/gs-common/chre/hal.mk
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.context_hub.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.context_hub.xml
 
 ## Enable the CHRE Daemon
-CHRE_USF_DAEMON_ENABLED := true
+CHRE_USF_DAEMON_ENABLED := false
 PRODUCT_PACKAGES += \
-	chre \
 	preloaded_nanoapps.json
 
 # Filesystem management tools
@@ -490,6 +497,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	android.hardware.usb.gadget-service
 
+ifneq (,$(filter ripcurrentpro, $(TARGET_PRODUCT)))
+PRODUCT_PACKAGES += usb_service_init_rc_i2c11
+else
+PRODUCT_PACKAGES += usb_service_init_rc_i2c6
+endif
+
 # MIDI feature
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
@@ -557,10 +570,10 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
 	android.hardware.graphics.mapper@4.0-impl \
-	android.hardware.graphics.allocator-V2-service
+	android.hardware.graphics.allocator-V1-service
 
 PRODUCT_PACKAGES += \
-	memtrack.$(TARGET_BOARD_PLATFORM) \
+	android.hardware.memtrack-service.pixel \
 	libion_exynos \
 	libion
 
@@ -698,6 +711,8 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += debug.sf.earlyGl.sf.duration=16600000
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += debug.sf.earlyGl.app.duration=16600000
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += debug.sf.frame_rate_multiple_threshold=120
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += debug.sf.treat_170m_as_sRGB=1
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += debug.sf.hwc_hotplug_error_via_neg_vsync=1
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += debug.sf.hwc_hdcp_via_neg_vsync=1
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.enable_layer_caching=true
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.set_idle_timer_ms?=80
@@ -723,10 +738,8 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.display_update_imminent
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += vendor.display.0.brightness.dimming.usage?=2
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += vendor.display.1.brightness.dimming.usage?=2
 
-# force to blend in P3 mode
 PRODUCT_PROPERTY_OVERRIDES += \
-	persist.sys.sf.native_mode=2 \
-	persist.sys.sf.color_mode=9
+	persist.sys.sf.native_mode=2
 PRODUCT_COPY_FILES += \
 	device/google/zumapro/display/display_colordata_cal0.pb:$(TARGET_COPY_OUT_VENDOR)/etc/display_colordata_cal0.pb
 
@@ -823,12 +836,13 @@ $(call inherit-product, system/core/trusty/trusty-storage.mk)
 $(call inherit-product, system/core/trusty/trusty-base.mk)
 
 # Trusty unit test tool
- PRODUCT_PACKAGES_DEBUG += \
+PRODUCT_PACKAGES_DEBUG += \
     trusty-ut-ctrl \
     tipc-test \
     trusty_stats_test \
 
-include device/google/gs101/confirmationui/confirmationui.mk
+# Remove confirmation UI (b/316160738)
+# include device/google/gs101/confirmationui/confirmationui.mk
 
 # Trusty Metrics Daemon
 PRODUCT_SOONG_NAMESPACES += \
@@ -842,7 +856,8 @@ $(warning displaycolor_platform set to zuma on zumapro target)
 $(call soong_config_set,google_displaycolor,displaycolor_platform,zuma)
 PRODUCT_PACKAGES += \
 	android.hardware.composer.hwc3-service.pixel \
-	libdisplaycolor
+	libdisplaycolor \
+	libdisplaypanel
 
 # Storage: for factory reset protection feature
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -914,21 +929,6 @@ PRODUCT_PACKAGES += ShannonIms
 
 PRODUCT_PACKAGES += ShannonRcs
 
-ifeq (,$(filter aosp_% factory_%,$(TARGET_PRODUCT)))
-#ImsMediaAoc library
-FEATURE_TYPE := oem_audio
-SOONG_CONFIG_NAMESPACES += audio_lib
-SOONG_CONFIG_audio_lib += \
-        audio_type
-
-SOONG_CONFIG_audio_lib_audio_type := $(FEATURE_TYPE)
-endif
-
-# ImsMedia
-PRODUCT_PACKAGES += \
-	ImsMediaService \
-	libimsmedia
-
 # Exynos RIL and telephony
 # Multi SIM(DSDS)
 SIM_COUNT := 2
@@ -982,12 +982,21 @@ endif
 # modem logging binary/configs
 PRODUCT_PACKAGES += modem_logging_control
 
+# libeomservice_proxy binary/configs
+PRODUCT_PACKAGES += liboemservice_proxy_default
+
 # modem logging configs
 PRODUCT_COPY_FILES += \
 	device/google/zumapro/radio/config/logging.conf:$(TARGET_COPY_OUT_VENDOR)/etc/modem/logging.conf \
 	device/google/zumapro/radio/config/default.cfg:$(TARGET_COPY_OUT_VENDOR)/etc/modem/default.cfg \
 	device/google/zumapro/radio/config/default.nprf:$(TARGET_COPY_OUT_VENDOR)/etc/modem/default.nprf \
 	device/google/zumapro/radio/config/default_metrics.xml:$(TARGET_COPY_OUT_VENDOR)/etc/modem/default_metrics.xml
+# modem extensive logging config
+PRODUCT_PACKAGES += \
+	extensive_logging.conf
+# Vendor modem extensive logging default property
+PRODUCT_PROPERTY_OVERRIDES += \
+	persist.vendor.modem.extensive_logging_enabled=false
 endif
 
 # Vibrator Diag
@@ -1003,7 +1012,7 @@ PRODUCT_PACKAGES += \
 
 # Audio
 # Audio HAL Server & Default Implementations
-ifeq ($(RELEASE_PIXEL_AIDL_AUDIO_HAL),true)
+ifeq ($(USE_AUDIO_HAL_AIDL),true)
 include device/google/gs-common/audio/aidl.mk
 else
 include device/google/gs-common/audio/hidl_zuma.mk
@@ -1013,7 +1022,7 @@ endif
 PRODUCT_SOONG_NAMESPACES += \
         vendor/google/whitechapel/aoc
 
-$(call soong_config_set,aoc,target_soc,zuma)
+$(call soong_config_set,aoc,target_soc,zumapro)
 $(call soong_config_set,aoc,target_product,$(TARGET_PRODUCT))
 
 #
@@ -1042,7 +1051,8 @@ PRODUCT_PACKAGES += \
 	aoc_tuning_inft \
 	mahal_test \
 	ma_aoc_tuning_test \
-	crus_sp_cal
+	crus_sp_cal \
+	pixel_ti_cal
 endif
 
 PRODUCT_PACKAGES += \
@@ -1064,6 +1074,14 @@ PRODUCT_PROPERTY_OVERRIDES += persist.vendor.enable.thermal.genl=true
 include device/google/gs-common/edgetpu/edgetpu.mk
 # Config variables for TPU chip on device.
 $(call soong_config_set,edgetpu_config,chip,rio_pro)
+# Include the edgetpu targets defined the namespaces below into the final image.
+PRODUCT_SOONG_NAMESPACES += \
+	vendor/google_devices/zumapro/proprietary/gchips/tpu/metrics \
+	vendor/google_devices/zumapro/proprietary/gchips/tpu/tflite_delegate \
+	vendor/google_devices/zumapro/proprietary/gchips/tpu/darwinn_logging_service \
+	vendor/google_devices/zumapro/proprietary/gchips/tpu/nnapi_stable_aidl \
+	vendor/google_devices/zumapro/proprietary/gchips/tpu/aidl \
+	vendor/google_devices/zumapro/proprietary/gchips/tpu/hal
 # TPU firmware
 PRODUCT_PACKAGES += edgetpu-rio.fw
 
@@ -1117,7 +1135,7 @@ endif
 include hardware/google/pixel/sscoredump/device.mk
 
 # RadioExt Version
-USES_RADIOEXT_V1_6 = true
+USES_RADIOEXT_V1_7 = true
 
 # Wifi ext
 include hardware/google/pixel/wifi_ext/device.mk
@@ -1157,9 +1175,19 @@ endif
 
 SUPPORT_VENDOR_SATELLITE_SERVICE := true
 
+# Telephony satellite geofence data file
+PRODUCT_COPY_FILES += \
+        device/google/zumapro/telephony/sats2.dat:$(TARGET_COPY_OUT_VENDOR)/etc/telephony/sats2.dat
+
 # Touch service
 include hardware/google/pixel/input/twoshay.mk
+include device/google/gs-common/touch/twoshay/aidl_zuma.mk
 
 PRODUCT_CHECK_VENDOR_SEAPP_VIOLATIONS := true
 
 PRODUCT_CHECK_DEV_TYPE_VIOLATIONS := true
+
+# Enable Android Messages satellite conversation feature.
+# TODO(b/322518837): Remove the property override once the flag is launched.
+PRODUCT_PROPERTY_OVERRIDES += \
+    debug.bugle.enable_emergency_satellite_messaging=true
