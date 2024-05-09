@@ -124,6 +124,12 @@ const struct SysfsCollector::SysfsPaths sysfs_paths = {
         "/sys/devices/platform/hdcp/hdcp1_success_count",
         "/sys/devices/platform/hdcp/hdcp1_fail_count",
         "/sys/devices/platform/hdcp/hdcp0_count",
+    },
+    .DisplayStatsPaths = {
+        "/sys/devices/platform/exynos-drm/primary-panel/error_count_te",
+        "/sys/devices/platform/exynos-drm/primary-panel/error_count_unknown",
+        "/sys/devices/platform/exynos-drm/secondary-panel/error_count_te",
+        "/sys/devices/platform/exynos-drm/secondary-panel/error_count_unknown",
     }
 };
 
