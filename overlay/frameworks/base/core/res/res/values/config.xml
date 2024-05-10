@@ -496,7 +496,13 @@
          will move to IDLE state. This timeout duration is used for satellite with NB IOT radio
          technologies.
          -->
-    <integer name="config_satellite_nb_iot_inactivity_timeout_millis">900000</integer>
+    <integer name="config_satellite_nb_iot_inactivity_timeout_millis">2147483647</integer>
+
+    <!-- The time duration in millis after which cellular scanning will be enabled and satellite
+         will move to IDLE state. This timeout duration is used for satellite with NB IOT radio
+         technologies in demo mode.
+         -->
+    <integer name="config_satellite_demo_mode_nb_iot_inactivity_timeout_millis">2147483647</integer>
 
     <!-- The time duration in millis after which Telephony will abort the datagram sending requests.
          Telephony starts a timer when receiving a datagram sending request in either OFF, IDLE, or
