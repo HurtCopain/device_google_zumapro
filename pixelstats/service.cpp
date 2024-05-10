@@ -116,6 +116,14 @@ const struct SysfsCollector::SysfsPaths sysfs_paths = {
         "/sys/devices/platform/exynos-drm/displayport/drm-displayport-stats/edid_invalid_failures",
         "/sys/devices/platform/exynos-drm/displayport/drm-displayport-stats/sink_count_invalid_failures",
         "/sys/devices/platform/exynos-drm/displayport/drm-displayport-stats/link_unstable_failures",
+    },
+    .HDCPStatsPaths = {
+        "/sys/devices/platform/hdcp/hdcp2_success_count",
+        "/sys/devices/platform/hdcp/hdcp2_fallback_count",
+        "/sys/devices/platform/hdcp/hdcp2_fail_count",
+        "/sys/devices/platform/hdcp/hdcp1_success_count",
+        "/sys/devices/platform/hdcp/hdcp1_fail_count",
+        "/sys/devices/platform/hdcp/hdcp0_count",
     }
 };
 
