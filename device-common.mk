@@ -16,6 +16,7 @@
 
 -include vendor/google_devices/zumapro/proprietary/telephony/device-vendor.mk
 include device/google/zumapro/device.mk
+include device/google/zumapro/device-lineage.mk
 
 # Telephony
 PRODUCT_COPY_FILES += \

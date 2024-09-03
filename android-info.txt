@@ -1,0 +1,3 @@
+require version-baseband=g5400c-240718-240719-B-12112834
+require board=ripcurrentpro|ripcurrent24|caiman|komodo|tokay
+require version-bootloader=ripcurrentpro-14.6-12143045
