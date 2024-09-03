@@ -121,6 +121,9 @@ BOARD_USES_GRALLOC_ION_SYNC := true
 # This should be the same value as USE_SWIFTSHADER in device.mk
 BOARD_USES_SWIFTSHADER ?= false
 
+# libgscaler
+$(call soong_config_set,arm_gchips,gchips_arm_uses_gscaler,true)
+
 # Gralloc4
 ifeq ($(BOARD_USES_EXYNOS_GRALLOC_VERSION),4)
 ifeq ($(BOARD_USES_SWIFTSHADER),true)
@@ -281,9 +284,8 @@ BOARD_USES_EXYNOS_AFBC_FEATURE := true
 #BOARD_USES_HDRUI_GLES_CONVERSION := true
 
 # TODO(b/272725898): Needs to check with owner later
-$(warning BOARD_LIBACRYL_DEFAULT_COMPOSITOR set to zuma on zumapro target)
-BOARD_LIBACRYL_DEFAULT_COMPOSITOR := fimg2d_zuma
-BOARD_LIBACRYL_G2D_HDR_PLUGIN := libacryl_hdr_plugin
+$(call soong_config_set,arm_acryl,soc,$(TARGET_SOC))
+$(call soong_config_set,arm_acryl,libacryl_use_hdr_plugin,true)
 
 # HWCServices
 BOARD_USES_HWC_SERVICES := true
