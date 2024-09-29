@@ -80,7 +80,7 @@ BOARD_BOOTCONFIG += androidboot.selinux=permissive
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 
 DISABLE_ARTIFACT_PATH_REQUIREMENTS := true
-
+BUILD_BROKEN_DUP_RULES := true
 # This is the fstab file that will be included in the recovery image.  Note that
 # recovery doesn't care about the encryption settings, so it doesn't matter
 # whether we use the normal or the fips fstab here.
