@@ -68,10 +68,14 @@ TARGET_RECOVERY_WIPE := device/google/zumapro/conf/recovery.wipe
 BOARD_AVB_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_KEY_PATH := /home/hurtcopain/.android-certs/releasekey.key
 
-TARGET_FORCE_PREBUILT_KERNEL := true
-TARGET_KERNEL_CONFIG := zumapro_gki_defconfig
-TARGET_NO_KERNEL_OVERRIDE := true
-TARGET_KERNEL_SOURCE := kernel/google/caimito/komodo
+#TARGET_FORCE_PREBUILT_KERNEL := true
+#TARGET_KERNEL_CONFIG := zumapro_gki_defconfig
+#TARGET_NO_KERNEL_OVERRIDE := true
+#TARGET_KERNEL_SOURCE := kernel/google/caimito/komodo
+BOARD_KERNEL_IMAGE_NAME := Image
+
+# Kernel
+TARGET_PREBUILT_KERNEL := $(LOCAL_KERNEL)
 
 SELINUX_IGNORE_NEVERALLOWS := true
 
@@ -81,6 +85,9 @@ BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 
 DISABLE_ARTIFACT_PATH_REQUIREMENTS := true
 BUILD_BROKEN_DUP_RULES := true
+
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += vendor/lineage/config/device_framework_matrix.xml
+
 # This is the fstab file that will be included in the recovery image.  Note that
 # recovery doesn't care about the encryption settings, so it doesn't matter
 # whether we use the normal or the fips fstab here.
