@@ -16,6 +16,9 @@ TARGET_BOARD_INFO_FILE := device/google/zumapro/android-info.txt
 # HIDL
 DEVICE_MANIFEST_FILE += device/google/zumapro/manifest_ext.xml
 
+# FCM
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += vendor/lineage/config/device_framework_matrix.xml
+
 # Kernel
 TARGET_PREBUILT_KERNEL := $(LOCAL_KERNEL)
 
