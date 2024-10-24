@@ -86,6 +86,11 @@
         <permission name="android.permission.BLUETOOTH_CONNECT" fixed="false"/>
     </exception>
 
+    <exception package="com.google.android.apps.setupwizard.searchselector">
+        <!-- Notifications -->
+        <permission name="android.permission.POST_NOTIFICATIONS" fixed="false"/>
+    </exception>
+    
     <exception
             package="com.google.android.apps.restore">
         <!-- External storage -->
